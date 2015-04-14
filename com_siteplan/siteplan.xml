@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3" method="upgrade">
+	<name>com_siteplan</name>
+	<author>Redevolution</author>
+	<creationDate>April 2015</creationDate>
+	<copyright>(C) 2012 Redevolution. All rights reserved.</copyright>
+	<license></license>
+	<authorEmail>info@joomlasiteplanner.com</authorEmail>
+	<authorUrl>www.joomlasiteplanner.com</authorUrl>
+	<version>2.0.0</version>
+	<description>Manage completion of content</description>
+	<files folder="site">
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<filename>router.php</filename>
+		<filename>siteplan.php</filename>
+        <folder>css</folder>
+        <folder>helpers</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	<languages folder="language">
+			<language tag="en-GB">en-GB/en-GB.com_siteplan.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_siteplan.sys.ini</language>
+	</languages>
+	<administration>
+		<menu img="../administrator/components/com_siteplan/images/siteplan_16.png" >com_siteplan</menu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>siteplan.php</filename>
+			<folder>elements</folder>
+			<folder>models</folder>
+			<folder>views</folder>
+		</files>
+		<params addpath="../administrator/components/com_siteplan/elements">
+			<param type="visualimagelist" name="image" default="16" />
+		</params>
+		<languages folder="admin/language">
+				<language tag="en-GB">en-GB/en-GB.com_siteplan.ini</language>
+				<language tag="en-GB">en-GB/en-GB.com_siteplan.sys.ini</language>
+		</languages>
+	</administration>
+</extension>

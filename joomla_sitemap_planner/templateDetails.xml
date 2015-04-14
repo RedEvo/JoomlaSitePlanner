@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.7" type="template" client="site">
+	<name>Joomla Site Planner</name>
+	<creationDate>12/11/2012</creationDate>
+	<author>Red Evolution</author>
+	<authorEmail>info@redevolution.com</authorEmail>
+	<authorUrl>http://www.redevolution.com</authorUrl>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>2.5.7</version>
+	<description>joomla_sitemap_planner</description>
+	<client>0</client>
+	<files>
+		<folder>css</folder>
+		<folder>js</folder>
+		<folder>images</folder>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>favicon.ico</filename>
+	</files>
+
+	<positions>
+		<position>logo</position>
+		<position>top-menu</position>
+		<position>footer</position>
+	</positions>
+
+</extension>

@@ -9,3 +9,14 @@ The component also allows content to be emailed simply by clicking the nodes.
 
 The content types are user definable.
 The email address to receive content is user definable.
+
+-------------------------------------
+
+The package consists of a component, two plugins (one for content and one for k2 items) and a template for viewing the site map in the front end on a full screen.
+
+Individual installers for each can be found in the packages sub folder.
+
+The pkg_siteplanner.zip installs them all.
+
+Running build.sh (from the root of the project) will re-create all the install files (linux/mac only).
+

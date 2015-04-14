@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3">
+<name>Site Planner Package</name>
+<author>Redevolution</author>
+<authorEmail>info@joomlasiteplanner.com</authorEmail>
+<creationDate>April 2015</creationDate>
+<packagename>siteplanner</packagename>
+<version>2.0.0</version>
+<url>www.joomlasiteplanner.com</url>
+<packager>Redevolution</packager>
+<packagerurl>www.redevolution.com</packagerurl>
+<description>Package installer for Site Planner and associated plugins</description>
+<files folder="packages">
+   <file type="component" id="com_siteplan" >com_siteplan.zip</file>
+   <file type="plugin" id="siteplan" group="content">plg_content_siteplan.zip</file>
+   <file type="plugin" id="siteplan" group="k2">plg_k2_siteplan.zip</file>
+   <file type="template" id="joomlasiteplanner" client="site">joomla_sitemap_planner.zip</file>
+</files>
+</extension>

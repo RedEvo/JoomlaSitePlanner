@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+
+	<fieldset
+		name="siteplan"
+		label="COM_SITEPLAN_FIELD_CONFIG_DISPLAY_LABEL"
+		description="COM_SITEPLAN_FIELD_CONFIG_DISPLAY_DESCRIPTION"
+		addfieldpath="/administrator/components/com_siteplan/elements"
+	>
+		<field
+			name="siteplan_project_name"
+			type="text"
+			label="COM_SITEPLAN_PROJECT_NAME_LABEL"
+			description="COM_SITEPLAN_PROJECT_NAME_DESCRIPTION"
+			size="50"
+			default=""
+		/>
+		<field
+			name="siteplan_mailto"
+			type="text"
+			label="COM_SITEPLAN_MAILTO_LABEL"
+			description="COM_SITEPLAN_MAILTO_DESCRIPTION"
+			size="50"
+			default=""
+		/>
+
+		<field type="spacer" name="siteplan_type1_spacer" label="&lt;hr&gt;&lt;STRONG&gt;Type 1&lt;/STRONG&gt;" />
+		<field 
+			name="siteplan_type1_enabled"
+			type="checkbox"
+			label="COM_SITEPLAN_ENABLED_LABEL"
+			description="COM_SITEPLAN_ENABLED_DESCRIPTION"
+			value="1"
+			default="0"
+		/>
+		<field
+			name="siteplan_type1_label"
+			type="text"
+			label="COM_SITEPLAN_LABEL_LABEL"
+			description="COM_SITEPLAN_LABEL_DESCRIPTION"
+			size="30"
+			default="Words"
+		/>
+		<field
+			name="siteplan_type1_description"
+			type="text"
+			label="COM_SITEPLAN_DESCRIPTION_LABEL"
+			description="COM_SITEPLAN_DESCRIPTION_DESCRIPTION"
+			size="30"
+			default="If I'm red then we need content for this page. If I'm green we're good."
+		/>
+		<field
+			name="siteplan_type1_image"
+			type="visualimagelist"
+			default="content.png"
+			label="COM_SITEPLAN_IMAGE_LABEL"
+			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
+			directory="administrator/components/com_siteplan/images/types"
+			exclude=""
+			stripext=""
+		/>
+
+
+		<field type="spacer" name="siteplan_type2_spacer" label="&lt;hr&gt;&lt;STRONG&gt;Type 2&lt;/STRONG&gt;" />
+		<field 
+			name="siteplan_type2_enabled"
+			type="checkbox"
+			label="COM_SITEPLAN_ENABLED_LABEL"
+			description="COM_SITEPLAN_ENABLED_DESCRIPTION"
+			value="1"
+			default="0"
+		/>
+		<field
+			name="siteplan_type2_label"
+			type="text"
+			label="COM_SITEPLAN_LABEL_LABEL"
+			description="COM_SITEPLAN_LABEL_DESCRIPTION"
+			size="30"
+			default="Documents"
+		/>
+		<field
+			name="siteplan_type2_description"
+			type="text"
+			label="COM_SITEPLAN_DESCRIPTION_LABEL"
+			description="COM_SITEPLAN_DESCRIPTION_DESCRIPTION"
+			size="30"
+			default="If I'm red then we need PDF's etc for this page. If I'm green we're good."
+		/>
+		<field
+			name="siteplan_type2_image"
+			type="visualimagelist"
+			default="docs.png"
+			label="COM_SITEPLAN_IMAGE_LABEL"
+			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
+			directory="administrator/components/com_siteplan/images/types"
+			exclude=""
+			stripext=""
+		/>
+
+
+		<field type="spacer" name="siteplan_type3_spacer" label="&lt;hr&gt;&lt;STRONG&gt;Type 3&lt;/STRONG&gt;" />
+		<field 
+			name="siteplan_type3_enabled"
+			type="checkbox"
+			label="COM_SITEPLAN_ENABLED_LABEL"
+			description="COM_SITEPLAN_ENABLED_DESCRIPTION"
+			value="1"
+			default="0"
+		/>
+		<field
+			name="siteplan_type3_label"
+			type="text"
+			label="COM_SITEPLAN_LABEL_LABEL"
+			description="COM_SITEPLAN_LABEL_DESCRIPTION"
+			size="30"
+			default="Attachments"
+		/>
+		<field
+			name="siteplan_type3_description"
+			type="text"
+			label="COM_SITEPLAN_DESCRIPTION_LABEL"
+			description="COM_SITEPLAN_DESCRIPTION_DESCRIPTION"
+			size="30"
+			default="If I'm red then we need attachments for this page. If I'm green we're good."
+		/>
+		<field
+			name="siteplan_type3_image"
+			type="visualimagelist"
+			default="attachment.png"
+			label="COM_SITEPLAN_IMAGE_LABEL"
+			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
+			directory="administrator/components/com_siteplan/images/types"
+			exclude=""
+			stripext=""
+		/>
+
+
+		<field type="spacer" name="siteplan_type4_spacer" label="&lt;hr&gt;&lt;STRONG&gt;Type 4&lt;/STRONG&gt;" />
+		<field 
+			name="siteplan_type4_enabled"
+			type="checkbox"
+			label="COM_SITEPLAN_ENABLED_LABEL"
+			description="COM_SITEPLAN_ENABLED_DESCRIPTION"
+			value="1"
+			default="0"
+		/>
+		<field
+			name="siteplan_type4_label"
+			type="text"
+			label="COM_SITEPLAN_LABEL_LABEL"
+			description="COM_SITEPLAN_LABEL_DESCRIPTION"
+			size="30"
+			default="Images"
+		/>
+		<field
+			name="siteplan_type4_description"
+			type="text"
+			label="COM_SITEPLAN_DESCRIPTION_LABEL"
+			description="COM_SITEPLAN_DESCRIPTION_DESCRIPTION"
+			size="30"
+			default="If I'm red then we need images for this page. If I'm green we're good."
+		/>
+		<field
+			name="siteplan_type4_image"
+			type="visualimagelist"
+			default="image.png"
+			label="COM_SITEPLAN_IMAGE_LABEL"
+			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
+			directory="administrator/components/com_siteplan/images/types"
+			exclude=""
+			stripext=""
+		/>
+
+
+		<field type="spacer" name="siteplan_type5_spacer" label="&lt;hr&gt;&lt;STRONG&gt;Type 5&lt;/STRONG&gt;" />
+		<field 
+			name="siteplan_type5_enabled"
+			type="checkbox"
+			label="COM_SITEPLAN_ENABLED_LABEL"
+			description="COM_SITEPLAN_ENABLED_DESCRIPTION"
+			value="1"
+			default="0"
+		/>
+		<field
+			name="siteplan_type5_label"
+			type="text"
+			label="COM_SITEPLAN_LABEL_LABEL"
+			description="COM_SITEPLAN_LABEL_DESCRIPTION"
+			size="30"
+			default="Video"
+		/>
+		<field
+			name="siteplan_type5_description"
+			type="text"
+			label="COM_SITEPLAN_DESCRIPTION_LABEL"
+			description="COM_SITEPLAN_DESCRIPTION_DESCRIPTION"
+			size="30"
+			default="If I'm red then we need video content for this page. If I'm green we're good."
+		/>
+		<field
+			name="siteplan_type5_image"
+			type="visualimagelist"
+			default="video.png"
+			label="COM_SITEPLAN_IMAGE_LABEL"
+			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
+			directory="administrator/components/com_siteplan/images/types"
+			exclude=""
+			stripext=""
+		/>
+
+		<field type="spacer" name="siteplan_type6_spacer" label="&lt;hr&gt;&lt;STRONG&gt;Type 6&lt;/STRONG&gt;" />
+		<field 
+			name="siteplan_type6_enabled"
+			type="checkbox"
+			label="COM_SITEPLAN_ENABLED_LABEL"
+			description="COM_SITEPLAN_ENABLED_DESCRIPTION"
+			value="1"
+			default="0"
+		/>
+		<field
+			name="siteplan_type6_label"
+			type="text"
+			label="COM_SITEPLAN_LABEL_LABEL"
+			description="COM_SITEPLAN_LABEL_DESCRIPTION"
+			size="30"
+			default="Slideshow"
+		/>
+		<field
+			name="siteplan_type6_description"
+			type="text"
+			label="COM_SITEPLAN_DESCRIPTION_LABEL"
+			description="COM_SITEPLAN_DESCRIPTION_DESCRIPTION"
+			size="30"
+			default="If I'm red then we need a slideshow for this page. If I'm green we're good."
+		/>
+		<field
+			name="siteplan_type6_image"
+			type="visualimagelist"
+			default="slideshow.png"
+			label="COM_SITEPLAN_IMAGE_LABEL"
+			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
+			directory="administrator/components/com_siteplan/images/types"
+			exclude=""
+			stripext=""
+		/>
+
+
+	</fieldset>
+
+	<fieldset name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+	>
+
+		<field name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			validate="rules"
+			filter="rules"
+			component="com_siteplan"
+			section="component" />
+	</fieldset>
+
+</config>
