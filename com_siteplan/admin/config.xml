@@ -55,7 +55,7 @@
 			default="content.png"
 			label="COM_SITEPLAN_IMAGE_LABEL"
 			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
-			directory="administrator/components/com_siteplan/images/types"
+			directory="components/com_siteplan/images/types"
 			exclude=""
 			stripext=""
 		/>
@@ -92,7 +92,7 @@
 			default="docs.png"
 			label="COM_SITEPLAN_IMAGE_LABEL"
 			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
-			directory="administrator/components/com_siteplan/images/types"
+			directory="components/com_siteplan/images/types"
 			exclude=""
 			stripext=""
 		/>
@@ -129,7 +129,7 @@
 			default="attachment.png"
 			label="COM_SITEPLAN_IMAGE_LABEL"
 			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
-			directory="administrator/components/com_siteplan/images/types"
+			directory="components/com_siteplan/images/types"
 			exclude=""
 			stripext=""
 		/>
@@ -166,7 +166,7 @@
 			default="image.png"
 			label="COM_SITEPLAN_IMAGE_LABEL"
 			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
-			directory="administrator/components/com_siteplan/images/types"
+			directory="components/com_siteplan/images/types"
 			exclude=""
 			stripext=""
 		/>
@@ -203,7 +203,7 @@
 			default="video.png"
 			label="COM_SITEPLAN_IMAGE_LABEL"
 			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
-			directory="administrator/components/com_siteplan/images/types"
+			directory="components/com_siteplan/images/types"
 			exclude=""
 			stripext=""
 		/>
@@ -239,7 +239,7 @@
 			default="slideshow.png"
 			label="COM_SITEPLAN_IMAGE_LABEL"
 			description="COM_SITEPLAN_IMAGE_DESCRIPTION"
-			directory="administrator/components/com_siteplan/images/types"
+			directory="components/com_siteplan/images/types"
 			exclude=""
 			stripext=""
 		/>
