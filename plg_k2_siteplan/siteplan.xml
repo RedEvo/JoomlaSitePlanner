@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="k2" method="upgrade">
-	<name>plg_k2_siteplan</name>
-	<author>Redevolution</author>
-	<creationDate>April 2015</creationDate>
-	<copyright>Copyright (c) 2012 Redevolution Ltd.</copyright>
-	<authorEmail>info@joomlasiteplanner.com</authorEmail>
-	<authorUrl>www.joomlasiteplanner.com</authorUrl>
-	<version>2.0.0</version>
-	<license/>
-	<description>Allow Site Planner component settings to be managed in K2</description>
-	<scriptfile>plg_k2_siteplan.scriptfile.php</scriptfile>
-	<files>
-		<filename plugin="siteplan">siteplan.php</filename>
-	</files>
-	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.plg_k2_siteplan.ini</language>
-		<language tag="en-GB">en-GB/en-GB.plg_k2_siteplan.sys.ini</language>
-	</languages>
+    <name>plg_k2_siteplan</name>
+    <author>Redevolution</author>
+    <creationDate>April 2015</creationDate>
+    <copyright>Copyright (c) 2012 Redevolution Ltd.</copyright>
+    <authorEmail>info@joomlasiteplanner.com</authorEmail>
+    <authorUrl>www.joomlasiteplanner.com</authorUrl>
+    <version>2.0.0</version>
+    <license/>
+    <description>Allow Site Planner component settings to be managed in K2</description>
+    <scriptfile>plg_k2_siteplan.scriptfile.php</scriptfile>
+    <files>
+        <filename plugin="siteplan">siteplan.php</filename>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_k2_siteplan.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_k2_siteplan.sys.ini</language>
+    </languages>
 
-	<fields group="item-content">
-	<field type="spacer" name="notenabled" label="PLG_K2_SITEPLAN_NONE_ENABLED" />
+    <fields group="item-content">
+        <field type="spacer" name="notenabled" label="PLG_K2_SITEPLAN_NONE_ENABLED"/>
     </fields>
+    <fields group="category">
+        <field type="spacer" name="notenabled" label="PLG_K2_SITEPLAN_NONE_ENABLED"/>
+    </fields>
+
 </extension>

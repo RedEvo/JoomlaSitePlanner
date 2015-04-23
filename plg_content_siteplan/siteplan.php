@@ -27,19 +27,30 @@
 					return false;
 				}
 			// Check we are manipulating a valid form.
-			$name = $form->getName();
-			if (!in_array($name, array('com_content.article')))
-			{
-				return true;
-			}
+			switch($form->getName()){
+                case 'com_content.article':
+                    $fieldsName='attribs';
+                    break;
+                case 'com_categories.categorycom_content':
+                    $fieldsName='params';
+                    break;
+                default:
+                    return true;
+            }
+//			if (!in_array($name, array('com_content.article','com_categories.categorycom_content')))
+//			{
+//				return true;
+//			}
 
 			// Add the extra fields to the form.
+
+
 			//JForm::addFormPath(dirname(__FILE__) . '/siteplan');
 			//$form->loadFile('siteplan', false);
 
 			$xml='
 				<form>
-					<fields name="attribs">
+					<fields name="'.$fieldsName.'">
 						<fieldset name="siteplan" label="PLG_CONTENT_SITEPLAN_SLIDER_LABEL" >
 			';
 

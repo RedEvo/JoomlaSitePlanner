@@ -158,7 +158,10 @@ class plgK2Siteplan extends K2Plugin {
 
 	function onK2AfterDisplayTitle( &$item, &$params, $limitstart) {
 		$mainframe = &JFactory::getApplication();
-		return '';
+  $mainframe = &JFactory::getApplication();
+  $plugins = new K2Parameter($item->plugins, '', $this->pluginName);
+  return $plugins->get('subtitle');
+        return '';
 	}
 
 	function onK2BeforeDisplayContent( &$item, &$params, $limitstart) {

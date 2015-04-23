@@ -8,21 +8,12 @@
 defined('_JEXEC') or die;
 
 class SiteplanBuildmap{
-	private $component_tables=array("com_content"=>"#__content","com_k2"=>"#__k2_items");
-	private $component_fields=array("com_content"=>"attribs","com_k2"=>"plugins");
-	private $component_edit_url=array("com_content"=>"administrator/index.php?option=com_content&task=article.edit&id=","com_k2"=>"administrator/index.php?option=com_k2&view=item&cid=");
-	private $ext_ids;
 	private $db;
 	private $params;
 	private $component_names=array();
-	private $component_access=array();
 	private $user;
 
 	public function createMap(){
-
-
-
-		$return="";
 
 		$this->params = JComponentHelper::getParams('com_siteplan');
 
@@ -30,12 +21,6 @@ class SiteplanBuildmap{
 
 		try{
 			$this->db = JFactory::getDBO();
-			$query="SELECT extension_id, element as name FROM #__extensions WHERE type='component' AND element in ('com_content','com_k2','com_siteplan');";
-			$this->db->setQuery($query);
-			$res = $this->db->loadRowList();
-
-			$this->ext_ids=array();
-			foreach($res as $key=>$value){$this->ext_ids[$value[0]]=$value[1];}
 
 			$query="SELECT menutype, title  FROM #__menu_types  order by menutype='mainmenu' desc;"; //make mainmenu first
 			$this->db->setQuery($query);
@@ -72,7 +57,12 @@ class SiteplanBuildmap{
 	private function getChildren($parent_id, $type){
 		$return=array();
 		$this->db = JFactory::getDBO();
-		$query="SELECT * FROM #__menu WHERE parent_id='$parent_id' and menutype='".$type."' and component_id!='".array_search("com_siteplan",$this->ext_ids)."' and published>=0 ORDER BY lft";
+		$query="SELECT * FROM #__menu WHERE
+		            parent_id='$parent_id' and
+		            menutype='".$type."' and
+		            component_id!=(SELECT extension_id FROM #__extensions WHERE type='component' AND element ='com_siteplan') and
+		            published>=0
+		            ORDER BY lft";
 		$this->db->setQuery($query);
 		$res = $this->db->loadObjectList();
 		foreach($res as $item){
@@ -96,32 +86,52 @@ class SiteplanBuildmap{
 
 		$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
 
-		// is this an item type we deal with?
+ 		// is this an item type we deal with?
+ 		// where do we find the siteplaner data?
+        // has user got authority?
 		$component_is_handled=false;
-		if (property_exists($item,"component_id")){
-			if (
-				array_key_exists($item->component_id,$this->ext_ids)&&
-				$item->component_id!="0"
-			){
-				$component_is_handled=true;
-			}
-		}
+        switch(true){
+            case ($item->type=="component"&&strpos($item->link,"view=article")):
+                $component_is_handled=true;
+                $component_table="#__content";
+                $component_field="attribs";
+                $component_edit_url="administrator/index.php?option=com_content&task=article.edit&id=";
+                $action="core.edit";
+                $asset="com_content.article.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                break;
+            case ($item->type=="component"&&strpos($item->link,"view=category")):
+                $component_is_handled=true;
+                $component_table="#__categories";
+                $component_field="params";
+                $component_edit_url="administrator/index.php?option=com_categories&task=category.edit&extension=com_content&id=";
+                $action="core.edit";
+                $asset="com_content.article.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                break;
+            case ($item->type=="component"&&strpos($item->link,"option=com_k2")&&strpos($item->link,"view=itemlist")):
+                $component_is_handled=true;
+                $component_table="#__k2_categories";
+                $component_field="plugins";
+                $component_edit_url="administrator/index.php?option=com_k2&view=category&cid=";
+                $action="core.edit";
+                $asset="com_k2.item.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                break;
+            case ($item->type=="component"&&strpos($item->link,"option=com_k2")&&strpos($item->link,"view=item")):
+                $component_is_handled=true;
+                $component_table="#__k2_items";
+                $component_field="plugins";
+                $component_edit_url="administrator/index.php?option=com_k2&view=item&cid=";
+
+                $action="core.edit";
+                $asset="com_k2.item.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                break;
+            default:
+                $component_is_handled=false;
+        }
+
 
 		// does the user have edit access?
 		$edit_access=false;
 		if ($component_is_handled){
-			switch ($this->ext_ids[$item->component_id]){
-				case "com_k2":
-					$action="core.edit";
-					$asset="com_k2.item.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
-
-					break;
-				default:
-					$action="core.edit";
-					$asset="com_content.article.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
-					break;
-
-			}
 			if ($this->user->authorise($action, $asset)) {
 				$edit_access=true;
 			}
@@ -132,17 +142,10 @@ class SiteplanBuildmap{
 		$component_name=$this->getComponentName($item);
 		if ($component_is_handled){
 			$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
-			if (
-				(
-					($this->ext_ids[$item->component_id]=="com_content"&&$link_params["view"]=="article")||
-					($this->ext_ids[$item->component_id]=="com_k2"&&$link_params["view"]=="item")
-				) &&
-				array_key_exists("id",$link_params)
-			){
-				$query="SELECT id, ".$this->component_fields[$this->ext_ids[$item->component_id]]." attribs FROM ".$this->component_tables[$this->ext_ids[$item->component_id]]." WHERE id=".$link_params["id"]."";
+				$query="SELECT id, ".$component_field." attribs FROM ".$component_table." WHERE id=".$link_params["id"]."";
 				$this->db->setQuery($query);
 				if (!$atts=$this->db->loadObject()){
-					echo "db error:".$this->db->getErrorMsg()."<br>";
+					echo "db error 1:".$this->db->getErrorMsg()."<br>".$query;
 				}
 
 				$attrib_string=$atts->attribs;
@@ -169,7 +172,7 @@ class SiteplanBuildmap{
 					if ($edit_access) {
 						$admin_links[]=str_replace(
 									"[link_location]",
-									JRoute::_(JURI::root( ).$this->component_edit_url[$this->ext_ids[$item->component_id]].$link_params["id"]),
+									JRoute::_(JURI::root( ).$component_edit_url.$link_params["id"]),
 									str_replace(
 										"[link_text]",
 										"Edit",
@@ -203,7 +206,6 @@ class SiteplanBuildmap{
 						}
 					}
 
-			}
 		}
 		$image_html.="</div>";
 		$admin_links_html='<ul id="siteplan_menu_'.$item->id.'" class="menu siteplan_context_menu" >';
@@ -316,75 +318,7 @@ class SiteplanBuildmap{
 
 	public function showMap($data)
 	{
-/*		$map_html="
-		<script>
-			function doMenu(event, id){
-				var m=$$('#siteplan_menu_'+id)[0];
-				var e=new DOMEvent(event);
 
-				var ns=(m.getStyle('visibility')=='visible')?'hidden':'visible';
-
-				var doc = document.documentElement, body = document.body;
-				var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
-				var top = (doc && doc.scrollTop  || body && body.scrollTop  || 0);
-				m.setStyle('left',left+e.client.x-20);
-				m.setStyle('top',top+e.client.y-20);
-				m.setStyle('visibility',ns);
-			}
-			jQuery('window').on('mousemove',function(event){
-				var e=new DOMEvent(event);
-				if (e.target.hasClass('siteplan_context_menu')||e.target.hasClass('siteplan_context_menu_item')||e.target.hasClass('siteplan_context_menu_item_link')) {
-					return;
-				}
-				t=$$('.siteplan_context_menu');
-				t.each(function(el){
-					el.setStyle('visibility','hidden');
-				});
-
-			});
-	var unitWidth=111;
-	jQuery(document).ready(function(){
-		jQuery('.siteplan_link_expand').click(function(){
-			var t=jQuery(this);
-			var p=t.closest('.siteplan_block');
-			//c=t.closest('.siteplan_block').children('.siteplan_block');
-			var d=t.closest('.siteplan_wrapper');
-			if (t.hasClass('expanded')) {
-				var f=p.children('.siteplan_block');
-				var f1=f.children('.siteplan_wrapper').find('.siteplan_link_expand.expanded');
-				f1.trigger('click');
-				t.removeClass('expanded');
-			}else{
-				t.addClass('expanded');
-			}
-			//t.toggleClass('expanded');
-			if (t.hasClass('expanded')) {
-				d.animate({width:unitWidth*p.attr('children')},200*p.attr('children'),'linear',function(){
-					var c=jQuery(this).closest('.siteplan_block').children('.siteplan_block');
-					nodes=0;
-					for (i=0;i<c.length;i++) {
-						nodes=(nodes>jQuery(c[i]).attr('children'))?nodes:jQuery(c[i]).attr('children');
-					}
-					c.slideDown(1000);
-					jQuery(this).css('width','auto');
-				});
-			}else{
-				d.css('width',unitWidth*p.attr('children'));
-				var c=d.closest('.siteplan_block').children('.siteplan_block');
-				c.slideUp({duration:1000}).promise().done(
-					function(d,k){d.delay(1000).animate({width:unitWidth},200*k,'linear')}(d,p.attr('children')) //delay
-				);
-			}
-
-		});
-		x=jQuery('.siteplan_link_expand');
-		jQuery('.siteplan_link_expand').each(function(){
-			jQuery(this).html(jQuery(this).closest('.siteplan_block').attr('children'));
-		});
-		//x.each(html(x.closest('.siteplan_block').attr('children'));
-	});
-</script>
-";*/
 $map_html="";
 		foreach($data->items as $type=>$item){
 
