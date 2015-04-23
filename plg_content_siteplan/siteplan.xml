@@ -19,6 +19,7 @@
 	</languages>
 	<config>
 		<fields name="params">
+            <field type="spacer" name="notenabled" label="PLG_CONTENT_SITEPLAN_NONE_ENABLED" />
 		</fields>
 	</config>
 </extension>

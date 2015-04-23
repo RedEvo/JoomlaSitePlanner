@@ -43,78 +43,103 @@ class plgK2Siteplan extends K2Plugin {
 
 
 		$dom=new DOMDocument();
+        $dom->formatOutput = true;
+        $dom->preserveWhiteSpace = false;
+
 		if (!$dom->load($filename)){
 			echo "not loading file...$filename";
 			exit();
 		}
 
-		$ps=$dom->getElementsByTagName('param');
+		$ps=$dom->getElementsByTagName('field');
 		foreach($ps as $p) $p->parentNode->removeChild($p);
 		foreach($ps as $p) $p->parentNode->removeChild($p);
 		foreach($ps as $p) $p->parentNode->removeChild($p);
 
 		$ps=$dom->getElementsByTagName('fields');
 
-			$params = JComponentHelper::getParams('com_siteplan');
-			for($idx=1;$idx<=6;$idx++){
-				if ($params->get("siteplan_type".$idx."_enabled")){
-					$n=$dom->createElement("field");
+        $params = JComponentHelper::getParams('com_siteplan');
+        $enabledTypes=0;
+        for($idx=1;$idx<=6;$idx++){
+            if ($params->get("siteplan_type".$idx."_enabled")){
+                $n=$dom->createElement("field");
 
-					$a=$dom->createAttribute("name");
-					$a->value="_type".$idx;
-					$n->appendChild($a);
-					
-					$a=$dom->createAttribute("type");
-					$a->value="radio";
-					$n->appendChild($a);
+                $a=$dom->createAttribute("name");
+                $a->value="_type".$idx;
+                $n->appendChild($a);
 
-					$a=$dom->createAttribute("id");
-					$a->value="_type".$idx;
-					$n->appendChild($a);
+                $a=$dom->createAttribute("type");
+                $a->value="radio";
+                $n->appendChild($a);
 
-					$a=$dom->createAttribute("description");
-					$a->value=$params->get("siteplan_type".$idx."_description");
-					$n->appendChild($a);
+                $a=$dom->createAttribute("id");
+                $a->value="_type".$idx;
+                $n->appendChild($a);
 
-					$a=$dom->createAttribute("label");
-					$a->value=$params->get("siteplan_type".$idx."_label");
-					$n->appendChild($a);
+                $a=$dom->createAttribute("description");
+                $a->value=$params->get("siteplan_type".$idx."_description");
+                $n->appendChild($a);
 
-					$a=$dom->createAttribute("default");
-					$a->value="NOTREQUIRED";
-					$n->appendChild($a);
+                $a=$dom->createAttribute("label");
+                $a->value=$params->get("siteplan_type".$idx."_label");
+                $n->appendChild($a);
 
-					$a=$dom->createAttribute("class");
-					$a->value="siteplan_radio";
-					$n->appendChild($a);
+                $a=$dom->createAttribute("default");
+                $a->value="NOTREQUIRED";
+                $n->appendChild($a);
 
-					$a=$dom->createAttribute("ink");
-					$a->value="$idx";
-					$n->appendChild($a);
+                $a=$dom->createAttribute("class");
+                $a->value="siteplan_radio";
+                $n->appendChild($a);
 
-					$o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_NOTREQUIRED"));
-					$a=$dom->createAttribute("value"); $a->value="NOTREQUIRED";
-					$o->appendChild($a);
-					$n->appendChild($o);
+                $a=$dom->createAttribute("ink");
+                $a->value="$idx";
+                $n->appendChild($a);
 
-					$o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_REQUIRED"));
-					$a=$dom->createAttribute("value"); $a->value="REQUIRED";
-					$o->appendChild($a);
-					$n->appendChild($o);
+                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_NOTREQUIRED"));
+                $a=$dom->createAttribute("value"); $a->value="NOTREQUIRED";
+                $o->appendChild($a);
+                $n->appendChild($o);
 
-					$o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_PRESENT"));
-					$a=$dom->createAttribute("value"); $a->value="PRESENT";
-					$o->appendChild($a);
-					$n->appendChild($o);
+                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_REQUIRED"));
+                $a=$dom->createAttribute("value"); $a->value="REQUIRED";
+                $o->appendChild($a);
+                $n->appendChild($o);
 
-					foreach($ps as $p)	$p->appendChild($n);
-				}
+                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_PRESENT"));
+                $a=$dom->createAttribute("value"); $a->value="PRESENT";
+                $o->appendChild($a);
+                $n->appendChild($o);
 
-			}
-			#echo var_export($dom->saveXML(),true);
-			if (!$dom->save($filename)){
-				echo "cannot write to $filename";
-			}
+                foreach($ps as $p)	$p->appendChild($n);
+
+                $enabledTypes++;
+            }
+
+        }
+        if($enabledTypes==0) {
+                $n=$dom->createElement("field");
+
+                $a=$dom->createAttribute("name");
+                $a->value="notenabled";
+                $n->appendChild($a);
+
+                $a=$dom->createAttribute("type");
+                $a->value="spacer";
+                $n->appendChild($a);
+
+                $a=$dom->createAttribute("label");
+                $a->value=JText::_("PLG_K2_SITEPLAN_NONE_ENABLED");
+                $n->appendChild($a);
+
+                foreach($ps as $p)	$p->appendChild($n);
+
+        }
+
+        //echo var_export($dom->saveXML(),true);exit();
+        if (!$dom->save($filename)){
+            echo "cannot write to $filename";
+        }
 	}
 
 	function onK2PrepareContent( &$item, &$params, $limitstart) {

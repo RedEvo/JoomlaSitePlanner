@@ -44,6 +44,7 @@
 			';
 
 			$params = JComponentHelper::getParams('com_siteplan');
+            $enabledTypes=0;
 			for($idx=1;$idx<=6;$idx++){
 				if ($params->get("siteplan_type".$idx."_enabled")){
 					$xml.='
@@ -65,9 +66,11 @@
 							value="PRESENT" >PLG_CONTENT_SITEPLAN_PRESENT</option>
 						</field>
 					';
+                    $enabledTypes++;
 				}
 
 			}
+            if($enabledTypes==0) $xml.='<field type="spacer" name="notenabled" label="PLG_CONTENT_SITEPLAN_NONE_ENABLED" />';
 			$xml.='
 						</fieldset>
 					</fields>
