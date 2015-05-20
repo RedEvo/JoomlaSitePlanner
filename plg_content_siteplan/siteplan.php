@@ -12,7 +12,7 @@
 			$app = JFactory::getApplication();
 			if($app->isSite()) return; //admin only
 
-			$css_file=DS.'components'.DS.'com_siteplan'.DS.'css'.DS.'siteplan.css';
+			$css_file='/components/com_siteplan/css/siteplan.css';
 			$document = JFactory::getDocument();
 			if(JFile::exists(JPATH_SITE.$css_file))
 				{
