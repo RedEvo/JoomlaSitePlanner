@@ -143,29 +143,27 @@ class plgK2Siteplan extends K2Plugin {
 	}
 
 	function onK2PrepareContent( &$item, &$params, $limitstart) {
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 	}
 
 	function onK2AfterDisplay( &$item, &$params, $limitstart) {
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		return '';
 	}
 
 	function onK2BeforeDisplay( &$item, &$params, $limitstart) {
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		return '';
 	}
 
 	function onK2AfterDisplayTitle( &$item, &$params, $limitstart) {
-		$mainframe = &JFactory::getApplication();
-  $mainframe = &JFactory::getApplication();
-  $plugins = new K2Parameter($item->plugins, '', $this->pluginName);
-  return $plugins->get('subtitle');
-        return '';
+        $mainframe = JFactory::getApplication();
+        $plugins = new K2Parameter($item->plugins, '', $this->pluginName);
+        return $plugins->get('subtitle');
 	}
 
 	function onK2BeforeDisplayContent( &$item, &$params, $limitstart) {
-		$mainframe = &JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		return '';
 	}
 

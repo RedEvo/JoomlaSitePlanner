@@ -189,13 +189,13 @@ class SiteplanBuildmap{
 						$attrib_property="siteplan_type".$idx;
 						$value="NOTREQUIRED";
 						if ($this->params->get("siteplan_type".$idx."_enabled",0)!=0){
-							$value=(property_exists($attribs,$attrib_property))?$attribs->$attrib_property:"NOTREQUIRED";
+							$value=(property_exists($attribs,$attrib_property))?$attribs->$attrib_property:"NOTSET";
 						}
 						if ($this->params->get("siteplan_type".$idx."_enabled")){
 
 							$image_html.='
 								<span class="hasTip" title="'.$this->params->get("siteplan_type".$idx."_label")."::".$this->params->get("siteplan_type".$idx."_description").'">
-								<a href="javascript:{}" class="'.((strtoupper($value)!="NOTREQUIRED")?'siteplan_type_link':'').'" itemid="'.$item->id.'" xxxonclick="javascript:'.((strtoupper($value)!="NOTREQUIRED")?'doMenu(event,\''.$item->id.'\');':'{}').'">
+								<a href="javascript:{}" value="'.$value.'" class="'.((strtoupper($value)!="NOTREQUIRED")?'siteplan_type_link':'').'" itemid="'.$item->id.'" xxxonclick="javascript:'.((strtoupper($value)!="NOTREQUIRED")?'doMenu(event,\''.$item->id.'\');':'{}').'">
 								<img alt="" src="'.JURI::root().'/components/com_siteplan/images/types/'.strtolower($value).'/'.$this->params->get("siteplan_type".$idx."_image").'">
 								</a>
 								</span>
