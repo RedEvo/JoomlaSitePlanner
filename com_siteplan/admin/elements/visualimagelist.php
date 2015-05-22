@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 JFormHelper::loadFieldClass('radio');
 jimport( 'joomla.filesystem.folder' );
-
+jimport('joomla.filesystem.file');
 /**
  * Supports an visual HTML select list of image
  *

@@ -51,12 +51,20 @@ class plgK2Siteplan extends K2Plugin {
 			exit();
 		}
 
-		$ps=$dom->getElementsByTagName('field');
+		$ps=$dom->getElementsByTagName('fields');
 		foreach($ps as $p) $p->parentNode->removeChild($p);
 		foreach($ps as $p) $p->parentNode->removeChild($p);
 		foreach($ps as $p) $p->parentNode->removeChild($p);
 
-		$ps=$dom->getElementsByTagName('fields');
+		//$ps=$dom->getElementsByTagName('fields');
+        $cat=$dom->createElement("fields");
+        $a=$dom->createAttribute("group");
+        $a->value="category";
+        $cat->appendChild($a);
+        $item=$dom->createElement("fields");
+        $a=$dom->createAttribute("group");
+        $a->value="item-content";
+        $item->appendChild($a);
 
         $params = JComponentHelper::getParams('com_siteplan');
         $enabledTypes=0;
@@ -111,7 +119,10 @@ class plgK2Siteplan extends K2Plugin {
                 $o->appendChild($a);
                 $n->appendChild($o);
 
-                foreach($ps as $p)	$p->appendChild($n);
+                //foreach($ps as $p)	$p->appendChild($n);
+                $n1=clone $n;
+                $cat->appendChild($n);
+                $item->appendChild($n1);
 
                 $enabledTypes++;
             }
@@ -132,10 +143,19 @@ class plgK2Siteplan extends K2Plugin {
                 $a->value=JText::_("PLG_K2_SITEPLAN_NONE_ENABLED");
                 $n->appendChild($a);
 
-                foreach($ps as $p)	$p->appendChild($n);
+//                foreach($ps as $p)	$p->appendChild($n);
+
+                $n1= clone $n;
+                $cat->appendChild($n);
+                $item->appendChild($n1);
 
         }
 
+        $ext=$dom->getElementsByTagName('extension');
+        foreach($ext as $e) {
+            $e->appendChild($cat);
+            $e->appendChild($item);
+        }
         //echo var_export($dom->saveXML(),true);exit();
         if (!$dom->save($filename)){
             echo "cannot write to $filename";
@@ -143,28 +163,18 @@ class plgK2Siteplan extends K2Plugin {
 	}
 
 	function onK2PrepareContent( &$item, &$params, $limitstart) {
-		$mainframe = JFactory::getApplication();
 	}
 
 	function onK2AfterDisplay( &$item, &$params, $limitstart) {
-		$mainframe = JFactory::getApplication();
-		return '';
 	}
 
 	function onK2BeforeDisplay( &$item, &$params, $limitstart) {
-		$mainframe = JFactory::getApplication();
-		return '';
 	}
 
 	function onK2AfterDisplayTitle( &$item, &$params, $limitstart) {
-        $mainframe = JFactory::getApplication();
-        $plugins = new K2Parameter($item->plugins, '', $this->pluginName);
-        return $plugins->get('subtitle');
 	}
 
 	function onK2BeforeDisplayContent( &$item, &$params, $limitstart) {
-		$mainframe = JFactory::getApplication();
-		return '';
 	}
 
 	function onK2AfterDisplayContent( &$item, &$params, $limitstart) {

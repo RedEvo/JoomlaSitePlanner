@@ -1,8 +1,11 @@
  <?php
     // no direct access
     defined('_JEXEC') or die;
+
     jimport( 'joomla.plugin.plugin' );
-    class plgContentSiteplan extends JPlugin
+    jimport( 'joomla.filesystem.file' );
+
+class plgContentSiteplan extends JPlugin
     {
 		public function __construct(&$subject, $params )
 			{
