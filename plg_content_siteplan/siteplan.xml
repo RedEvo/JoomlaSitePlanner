@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.0" type="plugin" group="content" method="upgrade">
 	<name>plg_content_siteplan</name>
-	<author>Redevolution</author>
+	<author>Red Eevolution</author>
 	<creationDate>April 2015</creationDate>
-	<copyright>Redevolution.com</copyright>
+	<copyright>Red Eevolution</copyright>
 	<license>GNU General Public License</license>
 	<authorEmail>info@joomlasiteplanner.com</authorEmail>
 	<authorUrl>www.joomlasiteplanner.com</authorUrl>

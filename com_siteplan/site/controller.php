@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_siteplan
- * @copyright	Copyright (C) 2012 Redevolution, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2012 Red Evolution Ltd, Inc. All rights reserved.
  * @license
  */
 

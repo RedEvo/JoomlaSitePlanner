@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Site Planner
- * @copyright	Copyright (C) 2012 redevolution. All rights reserved.
+ * @copyright	Copyright (C) 2012 Red Evolution Ltd. All rights reserved.
  * @license		
  * @since		2.5
  */

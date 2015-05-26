@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C)2012 Redevolution, Inc. All rights reserved.
+ * @copyright	Copyright (C)2012 Red Evolution Ltd, Inc. All rights reserved.
  * @license
  */
 
@@ -86,6 +86,7 @@ class SiteplanBuildmap{
 
 		$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
 
+        $asset_id=((array_key_exists("id",$link_params))?$link_params["id"]:"");
  		// is this an item type we deal with?
  		// where do we find the siteplaner data?
         // has user got authority?
@@ -97,7 +98,7 @@ class SiteplanBuildmap{
                 $component_field="attribs";
                 $component_edit_url="administrator/index.php?option=com_content&task=article.edit&id=";
                 $action="core.edit";
-                $asset="com_content.article.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                $asset="com_content.article.".$asset_id;
                 break;
             case ($item->type=="component"&&strpos($item->link,"view=category")):
                 $component_is_handled=true;
@@ -105,7 +106,7 @@ class SiteplanBuildmap{
                 $component_field="params";
                 $component_edit_url="administrator/index.php?option=com_categories&task=category.edit&extension=com_content&id=";
                 $action="core.edit";
-                $asset="com_content.article.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                $asset="com_content.article.".$asset_id;
                 break;
             case ($item->type=="component"&&strpos($item->link,"option=com_k2")&&strpos($item->link,"view=itemlist")):
                 $component_is_handled=true;
@@ -113,7 +114,7 @@ class SiteplanBuildmap{
                 $component_field="plugins";
                 $component_edit_url="administrator/index.php?option=com_k2&view=category&cid=";
                 $action="core.edit";
-                $asset="com_k2.item.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                $asset="com_k2.item.".$asset_id;
                 break;
             case ($item->type=="component"&&strpos($item->link,"option=com_k2")&&strpos($item->link,"view=item")):
                 $component_is_handled=true;
@@ -122,12 +123,13 @@ class SiteplanBuildmap{
                 $component_edit_url="administrator/index.php?option=com_k2&view=item&cid=";
 
                 $action="core.edit";
-                $asset="com_k2.item.".((array_key_exists("id",$link_params))?$link_params["id"]:"");
+                $asset="com_k2.item.".$asset_id;
                 break;
             default:
                 $component_is_handled=false;
         }
 
+        if(!$asset_id) $component_is_handled=false; //if we don't have an id for the asset don't try getting it's attributes :)
 
 		// does the user have edit access?
 		$edit_access=false;
@@ -142,7 +144,7 @@ class SiteplanBuildmap{
 		$component_name=$this->getComponentName($item);
 		if ($component_is_handled){
 			$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
-				$query="SELECT id, ".$component_field." attribs FROM ".$component_table." WHERE id=".$link_params["id"]."";
+				$query="SELECT id, ".$component_field." attribs FROM ".$component_table." WHERE id=".$asset_id."";
 				$this->db->setQuery($query);
 				if (!$atts=$this->db->loadObject()){
 					echo "db error 1:".$this->db->getErrorMsg()."<br>".$query;
@@ -172,7 +174,7 @@ class SiteplanBuildmap{
 					if ($edit_access) {
 						$admin_links[]=str_replace(
 									"[link_location]",
-									JRoute::_(JURI::root( ).$component_edit_url.$link_params["id"]),
+									JRoute::_(JURI::root( ).$component_edit_url.$asset_id),
 									str_replace(
 										"[link_text]",
 										"Edit",

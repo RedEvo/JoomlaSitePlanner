@@ -1,7 +1,7 @@
 <?php
 /**
- * @copyright	Copyright (C) 2012 Redevolution. All rights reserved.
- * @license		
+ * @copyright	Copyright (C) 2012 Red Eevolution. All rights reserved.
+ * @license
  */
 
 defined('_JEXEC') or die;

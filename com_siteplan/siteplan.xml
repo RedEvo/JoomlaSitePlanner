@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3" method="upgrade">
 	<name>com_siteplan</name>
-	<author>Redevolution</author>
+	<author>Red Eevolution</author>
 	<creationDate>April 2015</creationDate>
-	<copyright>(C) 2012 Redevolution. All rights reserved.</copyright>
+	<copyright>(C) 2012 Red Eevolution. All rights reserved.</copyright>
 	<license></license>
 	<authorEmail>info@joomlasiteplanner.com</authorEmail>
 	<authorUrl>www.joomlasiteplanner.com</authorUrl>

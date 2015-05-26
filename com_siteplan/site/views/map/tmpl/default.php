@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_siteplan
- * @copyright	Copyright (C) 2012 Redevolution. All rights reserved.
+ * @copyright	Copyright (C) 2012 Red Evolution Ltd. All rights reserved.
  * @license		
  */
 
