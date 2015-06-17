@@ -37,10 +37,9 @@ class SiteplanViewMap extends JViewLegacy
 			$doc->addScript(JURI::root().$js_file);
 		//}
 
-$map=new SiteplanBuildmap();
         $this->data= new stdClass();
 
-		$this->data->map=$map->showMap($this->get("Map"));
+        $this->data->map=$this->get("Map");
 
 		parent::display($tpl);
 	}

@@ -38,9 +38,10 @@ JHtml::_('jquery.framework');
 			$doc->addStyleSheet(JURI::root().$css_file);
 			$doc->addScript(JURI::root().$js_file);
 		//}
-		$map=new SiteplanBuildmap();
+
 		if (!isset($this->data)) $this->data=new stdClass();
-		$this->data->map=$map->showMap($this->get("Map"));
+
+		$this->data->map=$this->get("Map");
 
 		parent::display($tpl);
 	}

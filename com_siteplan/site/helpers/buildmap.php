@@ -13,6 +13,22 @@ class SiteplanBuildmap{
 	private $component_names=array();
 	private $user;
 
+    public function __construct(){
+        $doc=JFactory::getDocument();
+        $doc->addScript(JURI::base().'/components/com_siteplan/js/modernizr.min.js');
+        $doc->addScriptDeclaration("jQuery(function() {
+        // SVG / PNG
+        if(!Modernizr.svg) {
+          jQuery('img[src*=\"svg\"]').attr('src', function () {
+            return jQuery(this).attr('src').replace('.svg', '.png');
+          });
+        }
+        });
+        ");
+
+    }
+
+
 	public function createMap(){
 
 		$this->params = JComponentHelper::getParams('com_siteplan');
@@ -334,10 +350,10 @@ class SiteplanBuildmap{
 	}
 
 
-	public function showMap($data)
+	public function showMap($data=null)
 	{
-
-$map_html="";
+    if(!isset($data)) $data=$this->createMap();
+    $map_html="";
 		foreach($data->items as $type=>$item){
 
 				$map_html.='
