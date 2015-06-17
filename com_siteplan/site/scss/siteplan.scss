@@ -396,9 +396,10 @@
 
 .siteplan_link_expand{
 	background-color: transparent !important;
-	background-image: url(../images/expand.png) !important;
+	background-image: url(../images/expand.svg) !important;
+	bacground-size: 12px 12px;
 	background-repeat: no-repeat !important;
-	background-position: center bottom !important;
+	background-position: 50% 98% !important;
 	height: 28px;
 	width: 25px;
 	font-weight: bold;
@@ -408,8 +409,21 @@
 		cursor: pointer;
 		color: $link-color-dark;
 		text-decoration: none;
+		background-image: url(../images/expand-hover.svg) !important;
 	}
 }
 .siteplan_link_expand.expanded {
+	background-image: url(../images/collapse.svg) !important;
+	color: #000000;
+}
+
+.no-svg .siteplan_link_expand {
+	background-image: url(../images/expand.png) !important;
+
+	&:hover, &:focus {
+		background-image: url(../images/expand-hover.png) !important;
+	}
+}
+.no-svg .siteplan_link_expand.expanded {
 	background-image: url(../images/collapse.png) !important;
 }
