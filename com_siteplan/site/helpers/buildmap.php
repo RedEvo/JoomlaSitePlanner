@@ -92,7 +92,10 @@ class SiteplanBuildmap{
         // has user got authority?
 		$component_is_handled=false;
         switch(true){
-            case ($item->type=="component"&&strpos($item->link,"view=article")):
+            case (
+                    $item->type=="component" &&
+                    array_element_has_value($link_params,'view','article')
+                ):
                 $component_is_handled=true;
                 $component_table="#__content";
                 $component_field="attribs";
@@ -100,7 +103,10 @@ class SiteplanBuildmap{
                 $action="core.edit";
                 $asset="com_content.article.".$asset_id;
                 break;
-            case ($item->type=="component"&&strpos($item->link,"view=category")):
+            case (
+                    $item->type=="component" &&
+                    array_element_has_value($link_params,'view','category')
+                ):
                 $component_is_handled=true;
                 $component_table="#__categories";
                 $component_field="params";
@@ -108,7 +114,12 @@ class SiteplanBuildmap{
                 $action="core.edit";
                 $asset="com_content.article.".$asset_id;
                 break;
-            case ($item->type=="component"&&strpos($item->link,"option=com_k2")&&strpos($item->link,"view=itemlist")):
+            case (
+                    $item->type=="component" &&
+                     array_element_has_value($link_params,'option','com_k2') &&
+                     array_element_has_value($link_params,'view','itemlist') &&
+                     array_element_has_value($link_params,'layout','category')
+                ):
                 $component_is_handled=true;
                 $component_table="#__k2_categories";
                 $component_field="plugins";
@@ -116,7 +127,12 @@ class SiteplanBuildmap{
                 $action="core.edit";
                 $asset="com_k2.item.".$asset_id;
                 break;
-            case ($item->type=="component"&&strpos($item->link,"option=com_k2")&&strpos($item->link,"view=item")):
+            case (
+                    $item->type=="component" &&
+                     array_element_has_value($link_params,'option','com_k2') &&
+                      array_element_has_value($link_params,'view','item') &&
+                      array_element_has_value($link_params,'layout','item')
+                ):
                 $component_is_handled=true;
                 $component_table="#__k2_items";
                 $component_field="plugins";
@@ -144,7 +160,7 @@ class SiteplanBuildmap{
 		$component_name=$this->getComponentName($item);
 		if ($component_is_handled){
 			$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
-				$query="SELECT id, ".$component_field." attribs FROM ".$component_table." WHERE id=".$asset_id."";
+				$query="SELECT id, ".$component_field." AS attribs FROM ".$component_table." WHERE id=".$asset_id."";
 				$this->db->setQuery($query);
 				if (!$atts=$this->db->loadObject()){
 					echo "db error 1:".$this->db->getErrorMsg()."<br>".$query;
@@ -431,4 +447,10 @@ function explode_with_keys($string, $del1, $del2){
 	}
 
 	return $return;
+}
+function array_element_has_value($array, $key, $value){
+    if (array_key_exists($key,$array)){
+        if($array[$key]==$value ) return true;
+    }
+    return false;
 }
