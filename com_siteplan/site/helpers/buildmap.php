@@ -240,7 +240,7 @@ class SiteplanBuildmap{
 						if ($this->params->get("siteplan_type".$idx."_enabled")){
 
 							$image_html.='
-								<span class="hasTip" title="'.$this->params->get("siteplan_type".$idx."_label")."::".$this->params->get("siteplan_type".$idx."_description").'">
+								<span class="hasTip" title="'.$this->params->get("siteplan_type".$idx."_label")."::".$this->params->get("siteplan_type".$idx."_".strtolower($value)."_tip").'">
 								<a href="javascript:{}" value="'.$value.'" class="siteplan_type_link" itemid="'.$item->id.'" >
 								<img alt="" src="'.JURI::root().'/components/com_siteplan/images/types/'.strtolower($value).'/'.$this->params->get("siteplan_type".$idx."_image").'">
 								</a>
