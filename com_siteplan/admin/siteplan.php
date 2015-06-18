@@ -14,6 +14,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_siteplan')) {
 }
 require_once JPATH_COMPONENT_SITE.'/helpers/buildmap.php';
 
+
 $controller	= JControllerLegacy::getInstance('Siteplan');
 $controller->execute(JRequest::getCmd('task'));
 

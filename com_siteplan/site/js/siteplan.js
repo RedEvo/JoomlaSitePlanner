@@ -1,21 +1,3 @@
-function zzzzdoMenu(event, id){
-    var menu=jQuery('#siteplan_menu_'+id);
-/*    var m=$$('#siteplan_menu_'+id)[0];
-    var e=new DOMEvent(event);
-
-    var ns=(m.getStyle('visibility')=='visible')?'hidden':'visible';
-
-    var doc = document.documentElement, body = document.body;
-    var left = (doc && doc.scrollLeft || body && body.scrollLeft || 0);
-    var top = (doc && doc.scrollTop  || body && body.scrollTop  || 0);
-    m.setStyle('left',left+e.client.x-20);
-    m.setStyle('top',top+e.client.y-20);
-    m.setStyle('visibility',ns);*/
-console.log(menu);
-    
-    menu.fadeIn().mouseout(function(){menu.fadeOut()});
-}
-
 var unitWidth=111;
 jQuery(document).ready(function(){
     var link=jQuery('.siteplan_link_expand');
