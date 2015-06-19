@@ -37,7 +37,8 @@ class SiteplanModelMap extends JModelList
 	}
 	public function getMap(){
 		$map=new SiteplanBuildmap();
-		$this->_item[0]=$map->showMap();
+        $map->createMap();
+		$this->_item[0]=$map;
 		return $this->_item[0];
 	}
 }

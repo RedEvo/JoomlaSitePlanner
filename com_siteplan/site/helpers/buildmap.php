@@ -16,6 +16,8 @@ class SiteplanBuildmap
     private $component_names;
     private $attribs;
 
+    private $map;
+
     public function __construct()
     {
         $doc = JFactory::getDocument();
@@ -55,10 +57,11 @@ class SiteplanBuildmap
             foreach ($types as $type) {
                 $items[$type->title] = array(
                     "name" => $type->menutype,
-                    "html" => "<div class='siteplan_menu_title'>" . $type->title . "</div><div class='siteplan_menu_title_spacer'>&nbsp;</div>",
+//                    "html" => "<div class='siteplan_menu_title'>" . $type->title . "</div><div class='siteplan_menu_title_spacer'>&nbsp;</div>",
                     "level" => "0",
                     "children" => $this->getChildren(1, $type->menutype),
                     'component_is_handled' => true,
+                    'node_data' => array('html'=>"<div class='siteplan_menu_title'>" . $type->title . "</div><div class='siteplan_menu_title_spacer'>&nbsp;</div>"),
 
                 );
             }
@@ -73,7 +76,7 @@ class SiteplanBuildmap
         }
 
 
-        return $return;
+        $this->map=$return;
 
     }
 
@@ -184,7 +187,8 @@ class SiteplanBuildmap
 
             $return[$item->id] = array(
                 'name' => $item->title,
-                'html' => $this->make_node($node_data),
+                //'html' => $this->make_node($node_data),
+                'node_data' => $node_data,
                 "level" => $item->level,
                 'children' => $children,
                 'link' => $item->link,
@@ -235,7 +239,8 @@ class SiteplanBuildmap
 
             $return[$menu_item_id . '.' . $item->id] = array(
                 'name' => $item->title,
-                'html' => $this->make_node($node_data),
+                //'html' => $this->make_node($node_data),
+                'node_data' => $node_data,
                 "level" => $level,
                 'children' => array(),
                 'link' => $node_data['link'],
@@ -280,7 +285,8 @@ class SiteplanBuildmap
 
             $return[$menu_item_id . '.' . $item->id] = array(
                 'name' => $item->title,
-                'html' => $this->make_node($node_data),
+                //'html' => $this->make_node($node_data),
+                'node_data' => $node_data,
                 "level" => $level,
                 'children' => array(),
                 'link' => JRoute::_("index.php?option=com_k2&view=item&id=" . $item->id . ":" . $item->alias . "&Itemid=" . $menu_item_id),
@@ -294,6 +300,7 @@ class SiteplanBuildmap
 
     private function make_node($item)
     {
+        if(array_key_exists('html',$item)) return $item['html'];
         $image_html = "<div class=''>";
         $admin_link = "<li class='siteplan_context_menu_item hastip' title='[title]'><a class='siteplan_context_menu_item_link' href='[link_location]'>[link_text]</a></li>";
         $admin_links = array();
@@ -416,7 +423,7 @@ class SiteplanBuildmap
 										</div>
 										<div class="siteplan_item_icons">' . $image_html . '</div>
 										<div class="siteplan_item_type">
-											' . strtoupper($item['component_name']) . '[debug]
+											' . strtoupper($item['component_name']) . '
 										</div>
 									</div>
 									<div class="siteplan_inner_bottom"></div>
@@ -479,21 +486,19 @@ class SiteplanBuildmap
     }
 
 
-    public function showMap($data = null)
+    public function showMap()
     {
-        if (!isset($data)) $data = $this->createMap();
-        $map_html = "";
-        foreach ($data->items as $type => $item) {
+        if (!isset($this->map)) $this->createMap();
+        foreach ($this->map->items as $type => $item) {
 
-            $map_html .= '
-				<div class="siteplan_panel_outer" >
-						<div class="siteplan_panel_inner">
-						' . $this->buildMap($item, "first", "first", 0) . "<BR>" . '
-						</div>
-				</div>
-				';
+            ?>
+				<div class="siteplan_panel_outer at-the-top" >
+						<div class="siteplan_panel_inner at-the-top">
+						<?php $this->buildMap($item, "first", "first", 0); ?><BR>
+						</div> <!-- siteplan_panel_inner at-the-top -->
+				</div> <!--siteplan_panel_outer at-the-top -->
+<?php
         }
-        return $map_html;
     }
 
     /*
@@ -513,15 +518,13 @@ class SiteplanBuildmap
         }
         $next_stack = ($children > 0 && $grandchildren == 0 && $item["level"] > 0) ? 1 : 0;
 
-        $html = "<!--vertical-$vertical horizontal-$horizontal children-$children grandchildren-$grandchildren stack-$stack level-" . $item["level"] . "-->";
+        echo "<!--vertical-$vertical horizontal-$horizontal children-$children grandchildren-$grandchildren stack-$stack level-" . $item["level"] . "-->";
         if (!$stack) {
-            #$html.="<div class='siteplan_block ".(($item["level"]>1)?"siteplan_node_hidden":"siteplan_node_visible")." ' children='".$children."'>";
-            $html .= "<div class='siteplan_block' style='display:" . (($item["level"] > 1) ? "none" : "inline-block") . " ' children='" . $children . "'>";
-            #$html.="<div class='siteplan_block '>";
+            echo "<div class='siteplan_block' style='display:" . (($item["level"] > 1) ? "none" : "inline-block") . " ' children='" . $children . "'>";
         }
 
-        $html .= $this->buildConnections(
-            str_replace("[debug]", "", $item["html"]),
+        echo  $this->buildConnections(
+            $this->make_node($item['node_data']), /*"[debug]", "", $item["html"]),*/
             $vertical,
             $horizontal,
             $children,
@@ -541,10 +544,9 @@ class SiteplanBuildmap
             if ($item["level"] == 0 && $next_stack && $nexth == "first") $nextv = "first"; //stop upward linkage on 1st item of single level menu.
             if ($item["level"] == 0 && $children == 1) $nextv = "first";
 
-            $html .= $this->buildMap($child, $nextv, $nexth, $next_stack);
+            $this->buildMap($child, $nextv, $nexth, $next_stack);
         }
-        if (!$stack) $html .= "</div>";
-        return $html;
+        if (!$stack) echo "</div>";
     }
 
 
