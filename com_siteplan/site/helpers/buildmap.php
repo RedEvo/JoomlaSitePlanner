@@ -10,8 +10,8 @@ defined('_JEXEC') or die;
 class SiteplanBuildmap{
 	private $db;
 	private $params;
-	private $component_names=array();
 	private $user;
+    private $siteplan_id;
 
     public function __construct(){
         $doc=JFactory::getDocument();
@@ -32,11 +32,15 @@ class SiteplanBuildmap{
 	public function createMap(){
 
 		$this->params = JComponentHelper::getParams('com_siteplan');
-
 		$this->user=JFactory::getUser();
+        $this->db = JFactory::getDBO();
+
+        $query="SELECT extension_id FROM #__extensions WHERE type='component' AND element ='com_siteplan'";
+		$this->db->setQuery($query);
+		$this->siteplan_id = $this->db->loadResult();
+
 
 		try{
-			$this->db = JFactory::getDBO();
 
 			$query="SELECT menutype, title  FROM #__menu_types  order by menutype='mainmenu' desc;"; //make mainmenu first
 			$this->db->setQuery($query);
@@ -45,12 +49,13 @@ class SiteplanBuildmap{
 			$items=array();
 			foreach($types as $type){
 				$items[$type->title]=array(
-						"name"=>$type->menutype,
-						"html"=>"<div class='siteplan_menu_title'>".$type->title."</div><div class='siteplan_menu_title_spacer'>&nbsp;</div>",
-						"level"=>"0",
-						"children"=>$this->getChildren(1, $type->menutype)
+                    "name"=>$type->menutype,
+                    "html"=>"<div class='siteplan_menu_title'>".$type->title."</div><div class='siteplan_menu_title_spacer'>&nbsp;</div>",
+                    "level"=>"0",
+                    "children"=>$this->getChildren(1, $type->menutype),
+                    'component_is_handled'=>true,
 
-						);
+                );
 			}
 
 
@@ -70,39 +75,225 @@ class SiteplanBuildmap{
 	}
 
 
-	private function getChildren($parent_id, $type){
+	private function getChildren($parent_id, $menutype){
 		$return=array();
 		$this->db = JFactory::getDBO();
 		$query="SELECT * FROM #__menu WHERE
 		            parent_id='$parent_id' and
-		            menutype='".$type."' and
-		            component_id!=(SELECT extension_id FROM #__extensions WHERE type='component' AND element ='com_siteplan') and
+		            menutype='".$menutype."' and
+		            component_id!='".$this->siteplan_id."' and
 		            published>=0
 		            ORDER BY lft";
 		$this->db->setQuery($query);
 		$res = $this->db->loadObjectList();
+
+        // Loop through children of this menu item
 		foreach($res as $item){
+            $node_data=array(); // info for building html node
+    		$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
+            $children=$this->getChildren($item->id, $menutype); // get this nodes children
+
+            $asset_id=((array_key_exists("id",$link_params))?$link_params["id"]:""); // whatever component type this is get the id of the article/category etc.
+            $node_data['asset_id']=$asset_id;
+            $node_data['menu_item']=$item;
+            $node_data['link']=$item->link;
+            $node_data['id']=$item->id;
+            $node_data['title']=$item->title;
+            $node_data['published']=$item->published;
+            $node_data['level']=$item->level;
+
+            // is this an item type we deal with?
+            // where do we find the siteplaner data?
+            // has user got authority?
+            switch(true){
+                case (
+                        $item->type=="component" &&
+                        array_element_has_value($link_params,'view','article')
+                    ):
+                    $node_data['component_is_handled']=true;
+            		$node_data['component_name']="ARTICLES";
+
+                    $node_data['component_edit_url']="administrator/index.php?option=com_content&task=article.edit&id=".$asset_id;
+                    $node_data['attribs']=$this->getAttribs('content',$asset_id);
+                    $action="core.edit";
+                    $asset="com_content.article.".$asset_id;
+                    break;
+                case (
+                        $item->type=="component" &&
+                        array_element_has_value($link_params,'view','category')
+                    ):
+                    $node_data['component_is_handled']=true;
+            		$node_data['component_name']="CATEGORY";
+                    $node_data['component_edit_url']="administrator/index.php?option=com_categories&task=category.edit&extension=com_content&id=".$asset_id;
+                    $node_data['attribs']=$this->getAttribs('category',$asset_id);
+                    $action="core.edit";
+                    $asset="com_content.article.".$asset_id;
+
+                    $children=array_merge($children,$this->getContentCategoryItems($item->id,$asset_id, $item->level+1));
+                    break;
+                case (
+                        $item->type=="component" &&
+                         array_element_has_value($link_params,'option','com_k2') &&
+                         array_element_has_value($link_params,'view','itemlist') &&
+                         array_element_has_value($link_params,'layout','category')
+                    ):
+                    $node_data['component_is_handled']=true;
+            		$node_data['component_name']="K2 ITEMLIST";
+                    $node_data['attribs']=$this->getAttribs('k2category',$asset_id);
+                    $node_data['component_edit_url']="administrator/index.php?option=com_k2&view=category&cid=".$asset_id;
+                    $action="core.edit";
+                    $asset="com_k2.item.".$asset_id;
+
+                    $children=array_merge($children,$this->getK2CategoryItems($item->id,$asset_id, $item->level+1));
+                    break;
+                case (
+                        $item->type=="component" &&
+                         array_element_has_value($link_params,'option','com_k2') &&
+                          array_element_has_value($link_params,'view','item') &&
+                          array_element_has_value($link_params,'layout','item')
+                    ):
+                    $node_data['component_is_handled']=true;
+            		$node_data['component_name']="K2 ITEM";
+                    $node_data['component_table']="#__k2_items";
+                    $node_data['component_field']="plugins";
+                    $node_data['attribs']=$this->getAttribs('k2item',$asset_id);
+                    $node_data['component_edit_url']="administrator/index.php?option=com_k2&view=item&cid=".$asset_id;
+                    $action="core.edit";
+                    $asset="com_k2.item.".$asset_id;
+                    break;
+                default:
+                    $node_data['component_is_handled']=false;
+                    $node_data['component_name']=$this->getComponentName($item); //could be anything so go find out
+
+            }
+
+            if(!$asset_id) $node_data['component_is_handled']=false; //if we don't have an id for the asset don't try getting it's attributes :)
+
+            // does the user have edit access?
+            $node_data['edit_access']=false;
+            if ($node_data['component_is_handled']){
+                if ($this->user->authorise($action, $asset)) {
+                    $node_data['edit_access']=true;
+                }
+            }
+
+
+
 			$return[$item->id]=array(
 				'name' => $item->title,
-				'html' => $this->make_node($item),
+				'html' => $this->make_node($node_data),
 				"level"=>$item->level,
-				'children' => $this->getChildren($item->id, $type),
-				'link'=>$item->link
+				'children' => $children,
+				'link'=>$item->link,
+                'type'=>'menu',
 
 			);
 		}
 		return $return;
 	}
 
+    private function getContentCategoryItems($menu_item_id,$cat_id, $level){
+		$return=array();
+		$this->db = JFactory::getDBO();
+		$query="SELECT *,
+ 		            CASE WHEN now()
+		            	BETWEEN
+			            	CASE WHEN publish_up = 0 THEN '2000-01-01' ELSE publish_up END
+			            AND
+				            CASE WHEN publish_down = 0 THEN '2050-01-01' ELSE publish_down END
+                        THEN 1
+                        ELSE 0
+                    END published
+    		 FROM #__content WHERE
+		            catid='$cat_id'
+		            ORDER BY ordering";
+		$this->db->setQuery($query);
+		$res = $this->db->loadObjectList();
+
+
+		foreach($res as $item){
+
+            $node_data=array();
+            $node_data['component_name']='ARTICLES';
+            $node_data['component_is_handled']=true;
+            $node_data['asset_id']=$item->id;
+            $node_data['link']='/index.php?option=com_content&view=article&id='.$item->id.':'.$item->alias.'&catid='.$cat_id.'&Itemid='.$menu_item_id; // link to view the article
+            $node_data['id']=$item->id;
+            $node_data['title']=$item->title;
+            $node_data['published']=$item->published;
+            $node_data['level']=$level;
+
+            $node_data['component_is_handled']=true;
+            $node_data['component_edit_url']="administrator/index.php?option=com_content&view=article&layout=edit&id=".$item->id; //link to edit the article
+            $node_data['attribs']=$this->getAttribs('content',$item->id);
+            $node_data['edit_access']=true;
+
+			$return[$menu_item_id.'.'.$item->id]=array(
+				'name' => $item->title,
+				'html' => $this->make_node($node_data),
+				"level"=>$level,
+				'children' => array(),
+				'link'=>$node_data['link']  ,
+                'type'=>'k2item'
+
+			);
+		}
+		return $return;
+
+    }
+
+    private function getK2CategoryItems($menu_item_id,$cat_id, $level){
+		$return=array();
+		$this->db = JFactory::getDBO();
+		$query="SELECT * FROM #__k2_items WHERE
+		            catid='$cat_id' and
+		            published>=0
+		            ORDER BY ordering";
+		$this->db->setQuery($query);
+		$res = $this->db->loadObjectList();
+
+
+		foreach($res as $item){
+
+            $item->link=
+            $item->level=$level;
+            $node_data=array();
+            $node_data['component_name']='K2 ITEM';
+            $node_data['component_is_handled']=true;
+            $node_data['asset_id']=$item->id;
+            $node_data['link']='/index.php?option=com_k2&view=item&layout=item&id='.$item->id; // link to view the
+            $node_data['id']=$item->id;
+            $node_data['title']=$item->title;
+            $node_data['published']=$item->published;
+            $node_data['level']=$level;
+
+            $node_data['component_is_handled']=true;
+            $node_data['attribs']=$this->getAttribs('k2item',$item->id);
+            $node_data['component_edit_url']="administrator/index.php?option=com_k2&view=item&cid=".$item->id;
+            $node_data['edit_access']=true;
+
+			$return[$menu_item_id.'.'.$item->id]=array(
+				'name' => $item->title,
+				'html' => $this->make_node($node_data),
+				"level"=>$level,
+				'children' => array(),
+				'link'=>JRoute::_("index.php?option=com_k2&view=item&id=".$item->id.":".$item->alias."&Itemid=".$menu_item_id),
+                'type'=>'k2item'
+
+			);
+		}
+		return $return;
+
+    }
 
 	private function make_node($item){
  		$image_html="<div class=''>";
 		$admin_link="<li class='siteplan_context_menu_item hastip' title='[title]'><a class='siteplan_context_menu_item_link' href='[link_location]'>[link_text]</a></li>";
 		$admin_links=array();
 
-		$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
+//		$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
 
-        $asset_id=((array_key_exists("id",$link_params))?$link_params["id"]:"");
+/*        $asset_id=((array_key_exists("id",$link_params))?$link_params["id"]:"");
  		// is this an item type we deal with?
  		// where do we find the siteplaner data?
         // has user got authority?
@@ -170,13 +361,12 @@ class SiteplanBuildmap{
 				$edit_access=true;
 			}
 		}
-
+*/
 		$html="";
 
-		$component_name=$this->getComponentName($item);
-		if ($component_is_handled){
-			$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
-				$query="SELECT id, ".$component_field." AS attribs FROM ".$component_table." WHERE id=".$asset_id."";
+		if ($item['component_is_handled']){
+//			$link_params=explode_with_keys(str_replace("?","&",$item->link),"&","=");
+/*				$query="SELECT id, ".$item['component_field']." AS attribs FROM ".$item['component_table']." WHERE id=".$item['asset_id']."";
 				$this->db->setQuery($query);
 				if (!$atts=$this->db->loadObject()){
 					echo "db error 1:".$this->db->getErrorMsg()."<br>".$query;
@@ -186,9 +376,9 @@ class SiteplanBuildmap{
 
 					if (!$attribs=json_decode($attrib_string)){
 						$attribs=new stdClass();
-					}
+					}*/
 					if ($mailto=$this->params->get("siteplan_mailto")){ //check mailto has been set in parameters
-						$mailto.="?subject=".$this->params->get("siteplan_project_name").": ".$item->title."";
+						$mailto.="?subject=".$this->params->get("siteplan_project_name").": ".$item['title']."";
 						$admin_links[]=str_replace(
 									"[link_location]",
 									"mailto:$mailto",
@@ -203,10 +393,10 @@ class SiteplanBuildmap{
 										)
 									);
 					}
-					if ($edit_access) {
+					if ($item['edit_access']) {
 						$admin_links[]=str_replace(
 									"[link_location]",
-									JRoute::_(JURI::root( ).$component_edit_url.$asset_id),
+									JRoute::_(JURI::root( ).$item['component_edit_url']),
 									str_replace(
 										"[link_text]",
 										"Edit",
@@ -223,8 +413,8 @@ class SiteplanBuildmap{
 						$attrib_property="siteplan_type".$idx;
 						$value="DONE";
 						if ($this->params->get("siteplan_type".$idx."_enabled",0)!=0){
-                            if (property_exists($attribs,$attrib_property)){
-                                switch(strtoupper($attribs->$attrib_property)){
+                            if (property_exists($item['attribs'],$attrib_property)){
+                                switch(strtoupper($item['attribs']->$attrib_property)){
                                     case 'INCOMPLETE':
                                         $value='INCOMPLETE';
                                         break;
@@ -241,7 +431,7 @@ class SiteplanBuildmap{
 
 							$image_html.='
 								<span class="hasTip" title="'.$this->params->get("siteplan_type".$idx."_label")."::".$this->params->get("siteplan_type".$idx."_".strtolower($value)."_tip").'">
-								<a href="javascript:{}" value="'.$value.'" class="siteplan_type_link" itemid="'.$item->id.'" >
+								<a href="javascript:{}" value="'.$value.'" class="siteplan_type_link" itemid="'.$item['id'].'" >
 								<img alt="" src="'.JURI::root().'/components/com_siteplan/images/types/'.strtolower($value).'/'.$this->params->get("siteplan_type".$idx."_image").'">
 								</a>
 								</span>
@@ -254,7 +444,7 @@ class SiteplanBuildmap{
 
 		}
 		$image_html.="</div>";
-		$admin_links_html='<ul id="siteplan_menu_'.$item->id.'" class="menu siteplan_context_menu" >';
+		$admin_links_html='<ul id="siteplan_menu_'.$item['id'].'" class="menu siteplan_context_menu" >';
 		if(count($admin_links)){
 			$admin_links_html.='
 					<li class="siteplan_context_menu_item siteplan_context_menu_heading">Actions</li>
@@ -295,13 +485,13 @@ class SiteplanBuildmap{
 							<div class="siteplan_inner_wrap ">
 								<div class="siteplan_item">
 									<div class="siteplan_inner_top"></div>
-									<div  class="siteplanInner '.(($item->published==0)?"siteplan_unpublished":"").' siteplan_level_'.$item->level.'">
+									<div  class="siteplanInner '.(($item['published']==0)?"siteplan_unpublished":"").' siteplan_level_'.$item['level'].'">
 										<div class="siteplan_item_title">
-											<a href="'.str_replace("/administrator/","/",JRoute::_($item->link."&Itemid=".$item->id)).'">'.$item->title.'</a>
+											<a href="'.str_replace("/administrator/","/",JRoute::_($item['link']."&Itemid=".$item['id'])).'">'.$item['title'].'</a>
 										</div>
 										<div class="siteplan_item_icons">'.$image_html.'</div>
 										<div class="siteplan_item_type">
-											'.strtoupper($component_name).'[debug]
+											'.strtoupper($item['component_name']).'[debug]
 										</div>
 									</div>
 									<div class="siteplan_inner_bottom"></div>
@@ -465,6 +655,36 @@ class SiteplanBuildmap{
 		return $html;
 	}
 
+    function getAttribs($type, $id)
+    {
+        switch ($type) {
+            case 'content':
+                $query = "SELECT id, attribs AS attribs FROM #__content WHERE id=" . $id . "";
+                break;
+            case 'category':
+                $query = "SELECT id, params AS attribs FROM #__categories WHERE id=" . $id . "";
+                break;
+            case 'k2category':
+                $query = "SELECT id, plugins AS attribs FROM #__k2_categories WHERE id=" . $id . "";
+                break;
+            case 'k2item':
+                $query = "SELECT id, plugins AS attribs FROM #__k2_items WHERE id=" . $id . "";
+                break;
+
+        }
+
+        $this->db->setQuery($query);
+        if (!$atts = $this->db->loadObject()) {
+            echo "db error 1:" . $this->db->getErrorMsg() . "<br>" . $query;
+        }
+
+        $attrib_string = $atts->attribs;
+
+        if (!$attribs = json_decode($attrib_string)) {
+            $attribs = new stdClass();
+        }
+        return $attribs;
+    }
 
 }
 function explode_with_keys($string, $del1, $del2){
