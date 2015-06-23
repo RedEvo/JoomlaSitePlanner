@@ -2,8 +2,8 @@
 /**
  * @version		1.0.1
  * @package		K2 Plugin to manage siteplan component parameters
- * @author    Redevolution - http://www.redevolution.com
- * @copyright	Copyright (c) 2012 Red Eevolution Ltd. All rights reserved.
+ * @author    Red Evolution - http://www.redevolution.com
+ * @copyright	Copyright (c) 2012 Red Evolution Ltd. All rights reserved.
  * @license		
  */
 

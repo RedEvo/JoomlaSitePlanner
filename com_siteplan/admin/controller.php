@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2012 Red Eevolution. All rights reserved.
+ * @copyright	Copyright (C) 2012 Red Evolution. All rights reserved.
  * @license
  */
 
