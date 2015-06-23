@@ -50,7 +50,7 @@ JHtml::_('jquery.framework');
 	 * Add the page title and toolbar.
 	 *
 	 */
-	protected function showMap()
+/*	protected function showMap()
 	{
 
 
@@ -67,7 +67,7 @@ JHtml::_('jquery.framework');
 				';
 		}
 
-	}
+	}*/
 
 	/*
 	 *
@@ -77,7 +77,7 @@ JHtml::_('jquery.framework');
 	 * $stack: set when no "nephews" so the siblings "stack" ontop of each other
 	 *
 	 */
-	private function buildMap($item, $vertical, $horizontal, $stack  ){
+/*	private function buildMap($item, $vertical, $horizontal, $stack  ){
 		$children=count($item["children"]);
 		$grandchildren=0;foreach($item["children"] as $key=>$child){$grandchildren+=count($child["children"]);}
 		$next_stack=($children>0&&$grandchildren==0)?1:0;
@@ -104,10 +104,10 @@ JHtml::_('jquery.framework');
 		}
 		if (!$stack) $html.="</div>";
 		return $html;
-	}
+	}*/
 
 
-	function buildConnections($html, $vertical, $horizontal, $children, $grandchildren, $stack){
+/*	function buildConnections($html, $vertical, $horizontal, $children, $grandchildren, $stack){
 		if ($vertical!="last"&&($children!=0&&$grandchildren!=0)){
 			$html=str_replace("siteplan_inner_bottom","siteplan_inner_bottom siteplan_link",$html);
 		}
@@ -142,6 +142,6 @@ JHtml::_('jquery.framework');
 			}
 		}
 		return $html;
-	}
+	}*/
 
 }
