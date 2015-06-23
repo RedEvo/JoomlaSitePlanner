@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="3">
+<extension type="package" version="3"  method="upgrade">
 <name>Site Planner Package</name>
 <author>Redevolution</author>
 <authorEmail>info@joomlasiteplanner.com</authorEmail>
