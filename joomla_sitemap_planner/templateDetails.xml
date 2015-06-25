@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.7" type="template" client="site"  method="upgrade">
-	<name>Joomla Site Planner</name>
-	<creationDate>12/11/2012</creationDate>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="3.1" type="template" client="site">
+	<name>joomla-site-planner</name>
+	<creationDate>18/06/2015</creationDate>
 	<author>Red Evolution</author>
 	<authorEmail>info@redevolution.com</authorEmail>
 	<authorUrl>http://www.redevolution.com</authorUrl>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>2.5.7</version>
-	<description>joomla_sitemap_planner</description>
-	<client>0</client>
+	<version>1</version>
+	<description>Joomla Site Planner</description>
 	<files>
 		<folder>css</folder>
-		<folder>js</folder>
 		<folder>images</folder>
+		<folder>scss</folder>
 		<filename>index.php</filename>
+		<filename>favicon.ico</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_preview.png</filename>
-		<filename>favicon.ico</filename>
+		<filename>template_thumbnail.png</filename>
 	</files>
-
 	<positions>
-		<position>logo</position>
-		<position>top-menu</position>
-		<position>footer</position>
 	</positions>
-
 </extension>
