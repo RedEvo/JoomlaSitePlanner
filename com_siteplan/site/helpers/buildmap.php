@@ -230,7 +230,7 @@ class SiteplanBuildmap{
 							$image_html.='
 								<span class="hasTip" title="'.$this->params->get("siteplan_type".$idx."_label")."::".$this->params->get("siteplan_type".$idx."_description").'">
 								<a href="javascript:{}" value="'.$value.'" class="'.((strtoupper($value)!="NOTREQUIRED")?'siteplan_type_link':'').'" itemid="'.$item->id.'" xxxonclick="javascript:'.((strtoupper($value)!="NOTREQUIRED")?'doMenu(event,\''.$item->id.'\');':'{}').'">
-								<img alt="" src="'.JURI::root().'/components/com_siteplan/images/types/'.strtolower($value).'/'.$this->params->get("siteplan_type".$idx."_image").'">
+								<img alt="" src="'.JURI::root().'components/com_siteplan/images/types/'.strtolower($value).'/'.$this->params->get("siteplan_type".$idx."_image").'">
 								</a>
 								</span>
 							';
