@@ -15,7 +15,7 @@ class SiteplanBuildmap{
 
     public function __construct(){
         $doc=JFactory::getDocument();
-        $doc->addScript(JURI::base().'/components/com_siteplan/js/modernizr.min.js');
+        $doc->addScript(JURI::base().'components/com_siteplan/js/modernizr.min.js');
         $doc->addScriptDeclaration("jQuery(function() {
         // SVG / PNG
         if(!Modernizr.svg) {

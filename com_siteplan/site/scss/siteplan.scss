@@ -427,3 +427,58 @@
 .no-svg .siteplan_link_expand.expanded {
 	background-image: url(../images/collapse.png) !important;
 }
+
+
+
+/* SITE PLANNER KEY */
+.jsp-key {
+  list-style: none;
+  margin: 2px 0 10px 0;
+  padding: 0;
+  text-align: center;
+  font-size: 11px;
+  color: #444444;
+
+  li {
+    padding: 3px 0 3px 18px;
+    margin: 5px 2px;
+    display: inline;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+    background-size: 16px 16px;
+  }
+  .jsp-key-title {
+    display: block;
+    text-transform: uppercase;
+    color: #111111;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+  }
+  .jsp-required {
+    background-image: url(../images/types/jsp-required.svg);
+  }
+  .jsp-not-required {
+    background-image: url(../images/types/jsp-not-required.svg);
+  }
+  .jsp-present {
+    background-image: url(../images/types/jsp-present.svg);
+  }
+}
+
+@media (min-width: $screen-xs-min) {
+
+  .jsp-key {
+    text-align: right;
+    font-size: 13px;
+
+    li {
+      padding-left: 20px;
+      margin: 0 6px;
+    }
+    .jsp-key-title {
+      display: inline;
+      margin-right: 6px;
+    }
+  }
+}
