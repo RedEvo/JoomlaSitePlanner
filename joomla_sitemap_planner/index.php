@@ -38,7 +38,7 @@ unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap.min.js']);
 
   <div class="jsp-header">
     <div class="jsp-header-col">
-      <img class="jsp-logo pull-left" src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/Joomla_site_planner_logo.png" alt="Joomla Site Planner" title="Joomla Site Planner" />
+      <img class="jsp-logo pull-left" src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/Joomla_site_planner_logo.svg" alt="Joomla Site Planner" title="Joomla Site Planner" />
       <ul class="btn-header pull-right">
         <li><a href="index.php" target="_self">Back to site</a></li>
       </ul>
