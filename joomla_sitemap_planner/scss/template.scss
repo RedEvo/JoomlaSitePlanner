@@ -16,6 +16,7 @@ a {
 	&:hover, &:focus {
 		text-decoration: none;
 		background: $white-rgba;
+		color: $brand-color-dark;
 	}
 }
 .pull-left {
@@ -141,5 +142,19 @@ a {
 	}
 	a {
 		font-weight: normal;
+	}
+	.siteplan_menu_title {
+		font-size: 1.4em;
+		font-weight: bold;
+		position: absolute;
+	}
+}
+@media (min-width: $screen-sm-min) {
+
+	.siteplan_panel_outer {
+
+		.siteplan_menu_title {
+			font-size: 1.8em;
+		}
 	}
 }
