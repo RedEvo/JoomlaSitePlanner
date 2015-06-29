@@ -465,6 +465,18 @@
     background-image: url(../images/types/jsp-present.svg);
   }
 }
+.no-svg .jsp-key {
+
+  .jsp-required {
+    background-image: url(../images/types/jsp-required.png);
+  }
+  .jsp-not-required {
+    background-image: url(../images/types/jsp-not-required.png);
+  }
+  .jsp-present {
+    background-image: url(../images/types/jsp-present.png);
+  }
+}
 
 @media (min-width: $screen-xs-min) {
 
