@@ -30,8 +30,8 @@ class SiteplanViewMap extends JViewLegacy
 		$doc->setMetaData( 'X-UA-Compatible', 'IE=8,chrome=IE8',true ); //needed to display in IE
 		JFactory::getApplication()->JComponentTitle="<div class='pagetitle '><h2>Site Plan</h2></div>";
 
-		$css_file='/components/com_siteplan/css/siteplan.css';
-		$js_file='/components/com_siteplan/js/siteplan.js';
+		$css_file='components/com_siteplan/css/siteplan.css';
+		$js_file='components/com_siteplan/js/siteplan.js';
 		//if(JFile::exists(JPATH_SITE.$css_file)){
 			$doc->addStyleSheet(JURI::root().$css_file);
 			$doc->addScript(JURI::root().$js_file);
