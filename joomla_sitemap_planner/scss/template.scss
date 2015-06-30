@@ -142,6 +142,10 @@ a {
 	}
 	a {
 		font-weight: normal;
+
+		&:hover, &:focus {
+			background: none;
+		}
 	}
 	.siteplan_menu_title {
 		font-size: 1.4em;
@@ -156,5 +160,31 @@ a {
 		.siteplan_menu_title {
 			font-size: 1.8em;
 		}
+	}
+}
+
+
+
+
+/* TOOLTIPS STYLING */
+.tip {
+  max-width: 200px;
+  padding: 8px;
+  color: #FFF;
+  text-align: center;
+  background-color: #000;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	font-size: 12px;
+	z-index: 5000;
+	position: relative;
+
+	.tip-title {
+		color: #BBBBBB;
+		font-weight: bold;
+		font-size: 11px;
+		text-transform: uppercase;
+		margin-bottom: 3px;
 	}
 }

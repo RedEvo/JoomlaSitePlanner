@@ -13,9 +13,9 @@ $user		= JFactory::getUser();
 ?>
 <ul class="jsp-key">
 	<li class="jsp-key-title">Key:</li>
-	<li class="jsp-required">Required</li>
-	<li class="jsp-not-required">Not Required</li>
-	<li class="jsp-present">Present</li>
+	<li class="jsp-required">Needed</li>
+	<li class="jsp-not-required">Incomplete</li>
+	<li class="jsp-present">Done</li>
 </ul>
 <form method="post" name="adminForm" id="adminForm">
 	<div class="clr"> </div>

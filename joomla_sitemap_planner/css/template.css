@@ -165,6 +165,10 @@ a:hover, a:focus {
   font-weight: normal;
 }
 /* line 146, ../scss/template.scss */
+.siteplan_panel_outer a:hover, .siteplan_panel_outer a:focus {
+  background: none;
+}
+/* line 150, ../scss/template.scss */
 .siteplan_panel_outer .siteplan_menu_title {
   font-size: 1.4em;
   font-weight: bold;
@@ -172,8 +176,31 @@ a:hover, a:focus {
 }
 
 @media (min-width: 768px) {
-  /* line 156, ../scss/template.scss */
+  /* line 160, ../scss/template.scss */
   .siteplan_panel_outer .siteplan_menu_title {
     font-size: 1.8em;
   }
+}
+/* TOOLTIPS STYLING */
+/* line 170, ../scss/template.scss */
+.tip {
+  max-width: 200px;
+  padding: 8px;
+  color: #FFF;
+  text-align: center;
+  background-color: #000;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  z-index: 5000;
+  position: relative;
+}
+/* line 183, ../scss/template.scss */
+.tip .tip-title {
+  color: #BBBBBB;
+  font-weight: bold;
+  font-size: 11px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
 }
