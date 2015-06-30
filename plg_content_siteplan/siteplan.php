@@ -73,11 +73,11 @@ class plgContentSiteplan extends JPlugin
 						>
 							
 						<option
-							value="NOTREQUIRED" >PLG_CONTENT_SITEPLAN_NOTREQUIRED</option>
+							value="INCOMPLETE" >PLG_CONTENT_SITEPLAN_INCOMPLETE</option>
 						<option
-							value="REQUIRED" >PLG_CONTENT_SITEPLAN_REQUIRED</option>
+							value="NEEDED" >PLG_CONTENT_SITEPLAN_NEEDED</option>
 						<option
-							value="PRESENT" >PLG_CONTENT_SITEPLAN_PRESENT</option>
+							value="DONE" >PLG_CONTENT_SITEPLAN_DONE</option>
 						</field>
 					';
                     $enabledTypes++;

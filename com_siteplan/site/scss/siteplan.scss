@@ -15,73 +15,73 @@
 	font-weight: bold;
 }
 
-#pluginssiteplan_textNOTREQUIRED,
-#pluginssiteplan_textREQUIRED,
-#pluginssiteplan_textPRESENT,
+#pluginssiteplan_textINCOMPLETE,
+#pluginssiteplan_textNEEDED,
+#pluginssiteplan_textDONE,
 
-#pluginssiteplan_imagesNOTREQUIRED,
-#pluginssiteplan_imagesREQUIRED,
-#pluginssiteplan_imagesPRESENT,
+#pluginssiteplan_imagesINCOMPLETE,
+#pluginssiteplan_imagesNEEDED,
+#pluginssiteplan_imagesDONE,
 
-#pluginssiteplan_type1NOTREQUIRED,
-#pluginssiteplan_type1REQUIRED,
-#pluginssiteplan_type1PRESENT,
+#pluginssiteplan_type1INCOMPLETE,
+#pluginssiteplan_type1NEEDED,
+#pluginssiteplan_type1DONE,
 
-#pluginssiteplan_type2NOTREQUIRED,
-#pluginssiteplan_type2REQUIRED,
-#pluginssiteplan_type2PRESENT,
+#pluginssiteplan_type2INCOMPLETE,
+#pluginssiteplan_type2NEEDED,
+#pluginssiteplan_type2DONE,
 
-#pluginssiteplan_type3NOTREQUIRED,
-#pluginssiteplan_type3REQUIRED,
-#pluginssiteplan_type3PRESENT,
+#pluginssiteplan_type3INCOMPLETE,
+#pluginssiteplan_type3NEEDED,
+#pluginssiteplan_type3DONE,
 
-#pluginssiteplan_type4NOTREQUIRED,
-#pluginssiteplan_type4REQUIRED,
-#pluginssiteplan_type4PRESENT,
+#pluginssiteplan_type4INCOMPLETE,
+#pluginssiteplan_type4NEEDED,
+#pluginssiteplan_type4DONE,
 
-#pluginssiteplan_type5NOTREQUIRED,
-#pluginssiteplan_type5REQUIRED,
-#pluginssiteplan_type5PRESENT,
+#pluginssiteplan_type5INCOMPLETE,
+#pluginssiteplan_type5NEEDED,
+#pluginssiteplan_type5DONE,
 
-#pluginssiteplan_type6NOTREQUIRED,
-#pluginssiteplan_type6REQUIRED,
-#pluginssiteplan_type6PRESENT {
+#pluginssiteplan_type6INCOMPLETE,
+#pluginssiteplan_type6NEEDED,
+#pluginssiteplan_type6DONE {
 	clear: none !important;
 	margin: 5px 5px 0px 10px;
 }
 
 
-#pluginssiteplan_textNOTREQUIRED-lbl,
-#pluginssiteplan_textREQUIRED-lbl,
-#pluginssiteplan_textPRESENT-lbl,
+#pluginssiteplan_textINCOMPLETE-lbl,
+#pluginssiteplan_textNEEDED-lbl,
+#pluginssiteplan_textDONE-lbl,
 
-#pluginssiteplan_imagesNOTREQUIRED-lbl,
-#pluginssiteplan_imagesREQUIRED-lbl,
-#pluginssiteplan_imagesPRESENT-lbl,
+#pluginssiteplan_imagesINCOMPLETE-lbl,
+#pluginssiteplan_imagesNEEDED-lbl,
+#pluginssiteplan_imagesDONE-lbl,
 
-#pluginssiteplan_type1NOTREQUIRED-lbl,
-#pluginssiteplan_type1REQUIRED-lbl,
-#pluginssiteplan_type1PRESENT-lbl,
+#pluginssiteplan_type1INCOMPLETE-lbl,
+#pluginssiteplan_type1NEEDED-lbl,
+#pluginssiteplan_type1DONE-lbl,
 
-#pluginssiteplan_type2NOTREQUIRED-lbl,
-#pluginssiteplan_type2REQUIRED-lbl,
-#pluginssiteplan_type2PRESENT-lbl,
+#pluginssiteplan_type2INCOMPLETE-lbl,
+#pluginssiteplan_type2NEEDED-lbl,
+#pluginssiteplan_type2DONE-lbl,
 
-#pluginssiteplan_type3NOTREQUIRED-lbl,
-#pluginssiteplan_type3REQUIRED-lbl,
-#pluginssiteplan_type3PRESENT-lbl,
+#pluginssiteplan_type3INCOMPLETE-lbl,
+#pluginssiteplan_type3NEEDED-lbl,
+#pluginssiteplan_type3DONE-lbl,
 
-#pluginssiteplan_type4NOTREQUIRED-lbl,
-#pluginssiteplan_type4REQUIRED-lbl,
-#pluginssiteplan_type4PRESENT-lbl,
+#pluginssiteplan_type4INCOMPLETE-lbl,
+#pluginssiteplan_type4NEEDED-lbl,
+#pluginssiteplan_type4DONE-lbl,
 
-#pluginssiteplan_type5NOTREQUIRED-lbl,
-#pluginssiteplan_type5REQUIRED-lbl,
-#pluginssiteplan_type5PRESENT-lbl,
+#pluginssiteplan_type5INCOMPLETE-lbl,
+#pluginssiteplan_type5NEEDED-lbl,
+#pluginssiteplan_type5DONE-lbl,
 
-#pluginssiteplan_type6NOTREQUIRED-lbl,
-#pluginssiteplan_type6REQUIRED-lbl,
-#pluginssiteplan_type6PRESENT-lbl {
+#pluginssiteplan_type6INCOMPLETE-lbl,
+#pluginssiteplan_type6NEEDED-lbl,
+#pluginssiteplan_type6DONE-lbl {
 	clear: none !important;
 	margin: 5px 15px 0 10px;
 }
@@ -396,10 +396,9 @@
 
 .siteplan_link_expand{
 	background-color: transparent !important;
-	background-image: url(../images/expand.svg) !important;
-	bacground-size: 12px 12px;
+	background-image: url(../images/expand.png) !important;
 	background-repeat: no-repeat !important;
-	background-position: 50% 98% !important;
+	background-position: center bottom !important;
 	height: 28px;
 	width: 25px;
 	font-weight: bold;
@@ -409,22 +408,9 @@
 		cursor: pointer;
 		color: $link-color-dark;
 		text-decoration: none;
-		background-image: url(../images/expand-hover.svg) !important;
 	}
 }
 .siteplan_link_expand.expanded {
-	background-image: url(../images/collapse.svg) !important;
-	color: #000000;
-}
-
-.no-svg .siteplan_link_expand {
-	background-image: url(../images/expand.png) !important;
-
-	&:hover, &:focus {
-		background-image: url(../images/expand-hover.png) !important;
-	}
-}
-.no-svg .siteplan_link_expand.expanded {
 	background-image: url(../images/collapse.png) !important;
 }
 

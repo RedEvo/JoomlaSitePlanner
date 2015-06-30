@@ -20,6 +20,7 @@ $user		= JFactory::getUser();
 <form method="post" name="adminForm" id="adminForm">
 	<div class="clr"> </div>
 	<?php
+        //$this->data->showMap();
 		echo $this->data->map;
 	?>
 </form>

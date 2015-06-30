@@ -2,8 +2,8 @@
 /**
  * @version		1.0.1
  * @package		K2 Plugin to manage siteplan component parameters
- * @author    Redevolution - http://www.redevolution.com
- * @copyright	Copyright (c) 2012 Red Eevolution Ltd. All rights reserved.
+ * @author    Red Evolution - http://www.redevolution.com
+ * @copyright	Copyright (c) 2012 Red Evolution Ltd. All rights reserved.
  * @license		
  */
 
@@ -93,7 +93,7 @@ class plgK2Siteplan extends K2Plugin {
                 $n->appendChild($a);
 
                 $a=$dom->createAttribute("default");
-                $a->value="NOTREQUIRED";
+                $a->value="INCOMPLETE";
                 $n->appendChild($a);
 
                 $a=$dom->createAttribute("class");
@@ -104,18 +104,18 @@ class plgK2Siteplan extends K2Plugin {
                 $a->value="$idx";
                 $n->appendChild($a);
 
-                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_NOTREQUIRED"));
-                $a=$dom->createAttribute("value"); $a->value="NOTREQUIRED";
+                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_INCOMPLETE"));
+                $a=$dom->createAttribute("value"); $a->value="INCOMPLETE";
                 $o->appendChild($a);
                 $n->appendChild($o);
 
-                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_REQUIRED"));
-                $a=$dom->createAttribute("value"); $a->value="REQUIRED";
+                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_NEEDED"));
+                $a=$dom->createAttribute("value"); $a->value="NEEDED";
                 $o->appendChild($a);
                 $n->appendChild($o);
 
-                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_PRESENT"));
-                $a=$dom->createAttribute("value"); $a->value="PRESENT";
+                $o=$dom->createElement("option",JText::_("PLG_K2_SITEPLAN_DONE"));
+                $a=$dom->createAttribute("value"); $a->value="DONE";
                 $o->appendChild($a);
                 $n->appendChild($o);
 
