@@ -44,7 +44,7 @@ class JFormFieldVisualimageList extends JFormFieldRadio
 		$options = array();
 
 		// Initialize some field attributes.
-		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
+		$filter = '\.png$'; //|\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
 		$exclude = (string) $this->element['exclude'];
 		$stripExt = (string) $this->element['stripext'];
 		$hideNone = (string) "yes";
@@ -93,7 +93,7 @@ class JFormFieldVisualimageList extends JFormFieldRadio
 					$file = JFile::stripExt($file);
 				}
 
-				$options[] = JHtml::_('select.option', $file, "<img src='".$http_path."/".$file."'/>");
+				$options[] = JHtml::_('select.option', $file, "<img src='".$http_path."/".$file.".png'/>");
 			}
 		}
 

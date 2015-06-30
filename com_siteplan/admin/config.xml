@@ -52,12 +52,12 @@
             <field
                     name="siteplan_type1_image"
                     type="visualimagelist"
-                    default="content.png"
+                    default="content.svg"
                     label="COM_SITEPLAN_IMAGE_LABEL"
                     description="COM_SITEPLAN_IMAGE_DESCRIPTION"
                     directory="components/com_siteplan/images/types"
                     exclude=""
-                    stripext=""
+                    stripext="true"
                     />
 
             <field
@@ -115,12 +115,12 @@
             <field
                     name="siteplan_type2_image"
                     type="visualimagelist"
-                    default="docs.png"
+                    default="docs.svg"
                     label="COM_SITEPLAN_IMAGE_LABEL"
                     description="COM_SITEPLAN_IMAGE_DESCRIPTION"
                     directory="components/com_siteplan/images/types"
                     exclude=""
-                    stripext=""
+                    stripext="true"
                     />
             <field
                     name="siteplan_type2_needed_tip"
@@ -178,12 +178,12 @@
             <field
                     name="siteplan_type3_image"
                     type="visualimagelist"
-                    default="attachment.png"
+                    default="attachment.svg"
                     label="COM_SITEPLAN_IMAGE_LABEL"
                     description="COM_SITEPLAN_IMAGE_DESCRIPTION"
                     directory="components/com_siteplan/images/types"
                     exclude=""
-                    stripext=""
+                    stripext="true"
                     />
             <field
                     name="siteplan_type3_needed_tip"
@@ -241,12 +241,12 @@
             <field
                     name="siteplan_type4_image"
                     type="visualimagelist"
-                    default="image.png"
+                    default="image.svg"
                     label="COM_SITEPLAN_IMAGE_LABEL"
                     description="COM_SITEPLAN_IMAGE_DESCRIPTION"
                     directory="components/com_siteplan/images/types"
                     exclude=""
-                    stripext=""
+                    stripext="true"
                     />
 
             <field
@@ -306,12 +306,12 @@
             <field
                     name="siteplan_type5_image"
                     type="visualimagelist"
-                    default="video.png"
+                    default="video.svg"
                     label="COM_SITEPLAN_IMAGE_LABEL"
                     description="COM_SITEPLAN_IMAGE_DESCRIPTION"
                     directory="components/com_siteplan/images/types"
                     exclude=""
-                    stripext=""
+                    stripext="true"
                     />
             <field
                     name="siteplan_type5_needed_tip"
@@ -369,12 +369,12 @@
             <field
                     name="siteplan_type6_image"
                     type="visualimagelist"
-                    default="slideshow.png"
+                    default="slideshow.svg"
                     label="COM_SITEPLAN_IMAGE_LABEL"
                     description="COM_SITEPLAN_IMAGE_DESCRIPTION"
                     directory="components/com_siteplan/images/types"
                     exclude=""
-                    stripext=""
+                    stripext="true"
                     />
 
             <field
