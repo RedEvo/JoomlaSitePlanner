@@ -23,6 +23,14 @@
                 size="50"
                 default=""
                 />
+        <field
+                name="siteplan_mailto_disabled"
+                type="checkbox"
+                label="COM_SITEPLAN_MAILTO_DISABLED_LABEL"
+                description="COM_SITEPLAN_MAILTO_DISABLED_DESCRIPTION"
+                value="1"
+                default="0"
+                />
         <fieldset>
             <field type="spacer" name="siteplan_type1_spacer" label="&lt;hr&gt;&lt;STRONG&gt;Type 1&lt;/STRONG&gt;"/>
             <field

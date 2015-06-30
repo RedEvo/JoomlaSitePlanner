@@ -318,10 +318,10 @@ class SiteplanBuildmap
     {
         if(array_key_exists('html',$item)) return $item['html'];
         $image_html = "<div class=''>";
-        $admin_link = "<li class='siteplan_context_menu_item hastip' title='[title]'><a class='siteplan_context_menu_item_link' href='[link_location]'>[link_text]</a></li>";
+        $admin_link = "<li class='siteplan_context_menu_item hasTip' title='[title]'><a class='siteplan_context_menu_item_link' href='[link_location]'>[link_text]</a></li>";
         $admin_links = array();
         $title_clean =$item['title'];
-        if (strlen($title_clean)>30) $title_clean=substr($title_clean,0,30).'...';
+        if (strlen($title_clean)>25) $title_clean=substr($title_clean,0,25).'...';
         $component_name_clean =$item['component_name'];
         if (strlen($component_name_clean)>15) $component_name_clean=substr($component_name_clean,0,15).'...';
 
@@ -329,7 +329,7 @@ class SiteplanBuildmap
 
         if ($item['component_is_handled']) {
 
-            if ($mailto = $this->params->get("siteplan_mailto")) { //check mailto has been set in parameters
+            if ($mailto = $this->params->get("siteplan_mailto")&&$this->params->get("siteplan_mailto_disabled")!="1") { //check mailto has been set in parameters
                 $mailto .= "?subject=" . $this->params->get("siteplan_project_name") . ": " . $item['title'] . "";
                 $admin_links[] = str_replace(
                     "[link_location]",
@@ -340,6 +340,20 @@ class SiteplanBuildmap
                         str_replace(
                             "[title]",
                             "Submit Content by Mail",
+                            $admin_link
+                        )
+                    )
+                );
+            }elseif($this->params->get("siteplan_mailto_disabled")!="1"){
+                $admin_links[] = str_replace(
+                    "[link_location]",
+                    "#disabled",
+                    str_replace(
+                        "[link_text]",
+                        "Mail Content",
+                        str_replace(
+                            "[title]",
+                            "** NO EMAIL SET AND EMAIL CONTENT NOT DISABLED **::PLEASE GO TO SITEPLANNER OPTIONS TO CORRECT",
                             $admin_link
                         )
                     )
