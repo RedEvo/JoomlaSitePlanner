@@ -7,6 +7,8 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.tooltip');
+
 class SiteplanBuildmap
 {
     private $db;
@@ -235,7 +237,14 @@ class SiteplanBuildmap
             $node_data['component_is_handled'] = true;
             $node_data['component_edit_url'] = "administrator/index.php?option=com_content&view=article&layout=edit&id=" . $item->id; //link to edit the article
             $node_data['attribs'] = $this->getAttribs('content', $item->id);
-            $node_data['edit_access'] = true;
+
+            // does the user have edit access?
+            $node_data['edit_access'] = false;
+            if ($node_data['component_is_handled']) {
+                if ($this->user->authorise("core.edit", "com_content.article." . $item->id)) {
+                    $node_data['edit_access'] = true;
+                }
+            }
 
             $return[$menu_item_id . '.' . $item->id] = array(
                 'name' => $item->title,
@@ -281,7 +290,14 @@ class SiteplanBuildmap
             $node_data['component_is_handled'] = true;
             $node_data['attribs'] = $this->getAttribs('k2item', $item->id);
             $node_data['component_edit_url'] = "administrator/index.php?option=com_k2&view=item&cid=" . $item->id;
-            $node_data['edit_access'] = true;
+
+            // does the user have edit access?
+            $node_data['edit_access'] = false;
+            if ($node_data['component_is_handled']) {
+                if ($this->user->authorise("core.edit", "com_k2.item." . $item->id)) {
+                    $node_data['edit_access'] = true;
+                }
+            }
 
             $return[$menu_item_id . '.' . $item->id] = array(
                 'name' => $item->title,
@@ -304,6 +320,10 @@ class SiteplanBuildmap
         $image_html = "<div class=''>";
         $admin_link = "<li class='siteplan_context_menu_item hastip' title='[title]'><a class='siteplan_context_menu_item_link' href='[link_location]'>[link_text]</a></li>";
         $admin_links = array();
+        $title_clean =$item['title'];
+        if (strlen($title_clean)>30) $title_clean=substr($title_clean,0,30).'...';
+        $component_name_clean =$item['component_name'];
+        if (strlen($component_name_clean)>15) $component_name_clean=substr($component_name_clean,0,15).'...';
 
         $html = "";
 
@@ -363,8 +383,8 @@ class SiteplanBuildmap
 
                     $image_html .= '
 								<span class="hasTip" title="' . $this->params->get("siteplan_type" . $idx . "_label") . "::" . $this->params->get("siteplan_type" . $idx . "_" . strtolower($value) . "_tip") . '">
-								<a href="javascript:{}" value="' . $value . '" class="siteplan_type_link" itemid="' . $item['id'] . '" >
-								<img alt="" src="' . JURI::root() . '/components/com_siteplan/images/types/' . strtolower($value) . '/' . $this->params->get("siteplan_type" . $idx . "_image") . '.svg">
+								<a href="javascript:{}" value="' . $value . '" class="siteplan_type_link" itemid="' . $item['id'] . '" itemtype="' . strtolower(str_replace(' ','_',$item['component_name'])) . '">
+								<img alt="" src="' . JURI::root() . 'components/com_siteplan/images/types/' . strtolower($value) . '/' . $this->params->get("siteplan_type" . $idx . "_image") . '.svg">
 								</a>
 								</span>
 							';
@@ -376,7 +396,7 @@ class SiteplanBuildmap
 
         }
         $image_html .= "</div>";
-        $admin_links_html = '<ul id="siteplan_menu_' . $item['id'] . '" class="menu siteplan_context_menu" >';
+        $admin_links_html = '<ul id="siteplan_menu_' . strtolower(str_replace(' ','_',$item['component_name'])) . '_' .$item['id'] . '" class="menu siteplan_context_menu" >';
         if (count($admin_links)) {
             $admin_links_html .= '
 					<li class="siteplan_context_menu_item siteplan_context_menu_heading">Actions</li>
@@ -418,12 +438,12 @@ class SiteplanBuildmap
 								<div class="siteplan_item">
 									<div class="siteplan_inner_top"></div>
 									<div  class="siteplanInner ' . (($item['published'] == 0) ? "siteplan_unpublished" : "") . ' siteplan_level_' . $item['level'] . '">
-										<div class="siteplan_item_title">
-											<a href="' . str_replace("/administrator/", "/", JRoute::_($item['link'] . "&Itemid=" . $item['id'])) . '">' . $item['title'] . '</a>
+										<div class="siteplan_item_title hasTip" title="Menu Title::'.$item['title'].'">
+											<a href="' . str_replace("/administrator/", "/", JRoute::_($item['link'] . "&Itemid=" . $item['id'])) . '">' . $title_clean . '</a>
 										</div>
 										<div class="siteplan_item_icons">' . $image_html . '</div>
-										<div class="siteplan_item_type">
-											' . strtoupper($item['component_name']) . '
+										<div class="siteplan_item_type hasTip" title="Component Name::'.strtoupper($item['component_name']) .'">
+											' . $component_name_clean . '
 										</div>
 									</div>
 									<div class="siteplan_inner_bottom"></div>

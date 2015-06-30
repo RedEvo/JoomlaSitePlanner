@@ -37,7 +37,7 @@ jQuery(document).ready(function(){
     });
 
     jQuery('.siteplan_type_link').click(function(){
-        jQuery('#siteplan_menu_'+jQuery(this).attr('itemid'))
+        jQuery(this).closest('.siteplan_outer_wrap').find('.siteplan_context_menu')
             .fadeIn()
             .mouseleave(function(){jQuery(this).fadeOut()});
     })
