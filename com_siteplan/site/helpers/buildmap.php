@@ -318,7 +318,7 @@ class SiteplanBuildmap
     {
         if(array_key_exists('html',$item)) return $item['html'];
         $image_html = "<div class=''>";
-        $admin_link = "<li class='siteplan_context_menu_item hasTip' title='[title]'><a class='siteplan_context_menu_item_link' href='[link_location]'>[link_text]</a></li>";
+        $edit_link = "<li class='siteplan_context_menu_item hasTip' title='%s'><a class='siteplan_context_menu_item_link' href='%s'>%s</a></li>";
         $admin_links = array();
         $title_clean =$item['title'];
         if (strlen($title_clean)>25) $title_clean=substr($title_clean,0,25).'...';
@@ -327,52 +327,23 @@ class SiteplanBuildmap
 
         $html = "";
 
+
         if ($item['component_is_handled']) {
 
-            if ($mailto = $this->params->get("siteplan_mailto")&&$this->params->get("siteplan_mailto_disabled")!="1") { //check mailto has been set in parameters
-                $mailto .= "?subject=" . $this->params->get("siteplan_project_name") . ": " . $item['title'] . "";
-                $admin_links[] = str_replace(
-                    "[link_location]",
-                    "mailto:$mailto",
-                    str_replace(
-                        "[link_text]",
-                        "Mail Content",
-                        str_replace(
-                            "[title]",
-                            "Submit Content by Mail",
-                            $admin_link
-                        )
-                    )
-                );
-            }elseif($this->params->get("siteplan_mailto_disabled")!="1"){
-                $admin_links[] = str_replace(
-                    "[link_location]",
-                    "#disabled",
-                    str_replace(
-                        "[link_text]",
-                        "Mail Content",
-                        str_replace(
-                            "[title]",
-                            "** NO EMAIL SET AND EMAIL CONTENT NOT DISABLED **::PLEASE GO TO SITEPLANNER OPTIONS TO CORRECT",
-                            $admin_link
-                        )
-                    )
-                );
+            //create links for edit popup
+            $mailto = $this->params->get("siteplan_mailto");
+            $disabled = ($this->params->get("siteplan_mailto_disabled")==1);
+            switch(true){
+                case ($mailto&&!$disabled):
+                    $admin_links[]=sprintf($edit_link,"Submit Content by Mail","mailto:$mailto?subject=".JFactory::getConfig()->get( 'sitename' ).": ".$item['title'],"Mail Content");
+                break;
+                case (!$mailto&&!$disabled):
+                    $admin_links[]=sprintf($edit_link,"** NO EMAIL SET AND EMAIL CONTENT NOT DISABLED **::PLEASE GO TO SITEPLANNER OPTIONS TO CORRECT","#disabled","Mail Content");
+                break;
+
             }
             if ($item['edit_access']) {
-                $admin_links[] = str_replace(
-                    "[link_location]",
-                    JRoute::_(JURI::root() . $item['component_edit_url']),
-                    str_replace(
-                        "[link_text]",
-                        "Edit",
-                        str_replace(
-                            "[title]",
-                            "Edit Content",
-                            $admin_link
-                        )
-                    )
-                );
+                $admin_links[]=sprintf($edit_link,"Edit Content",JRoute::_(JURI::root() . $item['component_edit_url']),"Edit");
             }
             $image_count = 0;
             for ($idx = 1; $idx <= 6; $idx++) {
