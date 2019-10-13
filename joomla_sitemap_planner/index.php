@@ -4,8 +4,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.framework');
 /* The following line gets the application object for things like displaying the site name */
 $app = JFactory::getApplication();
-?>
-<?php
+
 // Remove Scripts
 $doc = JFactory::getDocument();
 unset($doc->_scripts[JURI::root(true) . '/media/jui/js/bootstrap.min.js']);
